@@ -55,6 +55,7 @@
                         </tr>
                         </thead>
                         <tbody>
+                            
                        @forelse ($products as $product)
                             <tr>
                                 <td>{{ $product->id }}</td>
@@ -66,15 +67,13 @@
                                 <td><span class="tag tag-danger">Denied</span></td>
                                 <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
                             </tr>
-                            @empty
-                            <p>Phông có sản phẩm</p>
+                        @empty    
+                            <p>Không có sản phẩm</p>
                        @endforelse               
                         </tbody>
-
-                        
                          
                     </table>
-                    {!! $products->links() !!}
+                    {{-- {!! $products->links() !!} --}}
                 </div>
                 <!-- /.card-body -->
             </div>

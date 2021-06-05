@@ -10,16 +10,19 @@ class MenuCategoryComposer
 {
     public function compose(View $view)
     {
-        $menus = Category::all(); 
+        $menus = Category::where('parent_id', 0)->get();
+        $menus = $this->getCategoryWithChildren($menus);
+
+        // dd($menus);
         $view->with('menus', $menus);
     }
 
     private function getCategoryWithChildren($categories)
     {
         foreach ($categories as $category) {
-            $children = Category::where('parent_id', $category->id)->get();
-            if (count($children) > 0) {
-                $category->children = $this->getCategoryWithChildren($children);
+            $childrens = Category::where('parent_id', $category->id)->get();
+            if (count($childrens) > 0) {
+                $category->children = $this->getCategoryWithChildren($childrens);
             }
         }
         return $categories;

@@ -34,7 +34,21 @@ Route::group([
         Route::get('/', 'ProductController@index')->name('backend.products.index');
 
         Route::get('/create', 'ProductController@create')->name('backend.products.create');
+
+        Route::get('/images/{id}', 'ProductController@showImages')->name('backend.products.showImagesByProductID');
+
+        Route::get('/showProductsByCategoryID/{id}', 'CategoryController@showProducts')->name('backend.products.showProductsByCategoryID');
+
+        Route::get('/showProductsByUserID/{id}', 'ProductController@showProducts')->name('backend.products.showProductsByUserID');
+
+        Route::get('/showProductsByOrderID/{id}', 'OrderController@showProducts')->name('backend.products.showProductsByOrderID');
+
+
+
+
     });
+
+    //
 
     // Users
 

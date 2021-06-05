@@ -1,3 +1,5 @@
+{{-- @dd($products) --}}
+
 @extends('backend.layouts.master');
 @section('title')
 <title>List-Products</title>
@@ -67,14 +69,12 @@
                                 <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
                             </tr>
                             @empty
-                            <p>Phông có sản phẩm</p>
+                            <p>Không có sản phẩm</p>
                        @endforelse               
                         </tbody>
-
-                        
                          
                     </table>
-                    {!! $products->links() !!}
+                    {{-- {!! $products->links() !!} --}}
                 </div>
                 <!-- /.card-body -->
             </div>

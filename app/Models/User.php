@@ -10,7 +10,16 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
-
+    protected $table = "users";
+    public function userInfo(){
+        return $this->hasOne(UserInfo::class);
+        //return $this->belongsTo(User::class, 'U_id');Khi đặt tên id Khác TeenTable_id
+    }
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
+    
     /**
      * The attributes that are mass assignable.
      *
