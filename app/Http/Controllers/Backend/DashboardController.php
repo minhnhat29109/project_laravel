@@ -8,7 +8,9 @@ use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
 use App\Models\UserInfo;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -52,7 +54,12 @@ class DashboardController extends Controller
     // $order = Order::find(1);
     // $product_id = 1;
     // $order->products()->attach($product_id);
+        // $products = Product::with('orders')->first()->orders;
+        // foreach ($products as $product){
+        //     dd($product->pivot->get());
+        // }
 
-        // return view('backend.dashboard');
+
+        return view('backend.dashboard');
     }
 }

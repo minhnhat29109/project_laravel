@@ -54,7 +54,7 @@ class ProductController extends Controller
     }
 
     public function showImages($id){
-        $images = Product::find($id)->images;
+        $images = Product::find($id)->images()->paginate(15);
         
         return view('backend.products.showImages',['images' => $images]);
     }

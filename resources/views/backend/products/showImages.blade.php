@@ -61,7 +61,7 @@
                             </tbody>
                              
                         </table>
-                        {{-- {!! $images->links() !!} --}}
+                        {!! $images->links() !!}
                    
                     </div>
                     <!-- /.card-body -->

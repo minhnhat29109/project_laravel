@@ -1,6 +1,6 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
+    <a href="{{route('frontend.home')}}" target="_blink" class="brand-link">
         <img src="/backend/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
              style="opacity: .8">
         <span class="brand-text font-weight-light">My shop</span>
@@ -14,7 +14,11 @@
                 <img src="/backend/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">Đàm Minh Nhật</a>
+                <a href="#" class="d-block">
+                    @isset(Auth::user()->name)
+                        {{ Auth::user()->name }}    
+                    @endisset
+                </a>
             </div>
         </div>
 

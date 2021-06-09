@@ -1,5 +1,6 @@
 <?php
 
+use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,13 +17,26 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/', function () {
 //     return view('backend.Dashboard');
 // });
-Route::get('/', 'Frontend\HomeController@index')->name('backend.dashboard');
+Route::get('/', 'Frontend\HomeController@index')->name('frontend.home');
+
+Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login.form');
+
+Route::post('/login', 'Auth\LoginController@login')->name('login.store');
+
+Route::get('/logout', 'Auth\LogoutController@logout')->name('logout');
+
+Route::get('/register', 'Auth\RegisterController@showRegistrationForm')->name('register.form');
+Route::post('/register', 'Auth\RegisterController@register')->name('register.post');
+
 
 
 Route::group([
     'namespace' => 'Backend',
-    'prefix' => 'admin'
+    'prefix' => 'admin',
+    'middleware' => 'auth'
 ], function (){
+    //login
+
 
     // DashBoard
 
@@ -61,3 +75,6 @@ Route::group([
     
 
 });
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard');
