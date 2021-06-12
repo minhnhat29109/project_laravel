@@ -45,9 +45,32 @@ Route::group([
     // products
 
     Route::prefix('products')->group(function () {
-        Route::get('/', 'ProductController@index')->name('backend.products.index');
+        Route::get('/danh-sach-san-pham', 'ProductController@index')->name('backend.products.index');
+        Route::get('/them-moi', 'ProductController@create')->name('backend.products.create');
+        Route::get('/edit/{id}', 'ProductController@edit')->name('backend.products.edit');
 
-        Route::get('/create', 'ProductController@create')->name('backend.products.create');
+        
+        Route::post('/create', 'ProductController@store')->name('backend.products.store');
+        Route::post('/update/{id}', 'ProductController@update')->name('backend.products.update');
+        Route::get('/delete/{id}', 'ProductController@destroy')->name('backend.products.delete');
+
+
+    //category
+        Route::get('/danh-sach-danh-muc', 'CategoryController@index')->name('backend.category.index');
+        Route::get('/them-moi-danh-muc', 'CategoryController@create')->name('backend.category.create');
+        Route::post('/category/create', 'CategoryController@store')->name('backend.category.store');
+
+        Route::get('/category/edit/{id}', 'CategoryController@edit')->name('backend.category.edit');
+        Route::post('/category/update/{id}', 'CategoryController@update')->name('backend.category.update');
+        Route::get('/category/delete/{id}', 'CategoryController@destroy')->name('backend.category.delete');
+
+
+
+
+
+
+
+
 
         Route::get('/images/{id}', 'ProductController@showImages')->name('backend.products.showImagesByProductID');
 

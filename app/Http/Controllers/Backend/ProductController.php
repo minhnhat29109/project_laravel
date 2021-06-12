@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreProductRequest;
+use App\Models\Category;
 use App\Models\Image;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
@@ -17,7 +21,7 @@ class ProductController extends Controller
     public function index()
     {
         // $product = Category::find($id)->products()->where('status', 1)->get();
-        $products = Product::paginate(15);
+        $products = Product::orderBy('id', 'desc')->paginate(15);
         return view('backend.products.index', ['products' => $products]);
     }
 
@@ -28,7 +32,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('backend.products.create');
+        $categories = Category::all();   
+        return view('backend.products.create', ['categories' =>$categories]);
     }
 
     /**
@@ -37,9 +42,51 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreProductRequest $request)
     {
-        //
+    //     $validatedData = $request->validate([
+    //     'name'         => 'required|min:10|max:255',
+    //     'origin_price' => 'required|numeric',
+    //     'sale_price'   => 'required|numeric',
+    // ]);
+    // $validator = Validator::make($request->all(),
+    //         [
+    //             'name'         => 'required|min:10|max:255',
+    //             'origin_price' => 'required|numeric',
+    //             'sale_price'   => 'required|numeric',
+    //         ],
+    //         [
+    //             'required' => ':attribute Không được để trống',
+    //             'min' => ':attribute Không được nhỏ hơn :min',
+    //             'max' => ':attribute Không được lớn hơn :max'
+    //         ],
+    //         [
+    //             'name' => 'Tên sản phẩm',
+    //             'origin_price' => 'Giá gốc',
+    //             'sale_price' => 'Giá bán'
+    //         ]
+    //     );
+    //     if ($validator->errors()){
+    //         return back()
+    //             ->withErrors($validator)
+    //             ->withInput();
+    //     }
+    // if ($validatedData == null) {
+    //     return back()->withErrors(['name' => 'Email không đúng']);
+    // }
+        
+        $product = new Product();
+        $product->name = $request->get('name');
+        $product->slug = \Illuminate\Support\Str::slug($request->get('name'));
+        $product->category_id = $request->get('category_id');
+        $product->origin_price = $request->get('origin_price');
+        $product->sale_price = $request->get('sale_price');
+        $product->content = $request->get('content');
+        $product->status = $request->get('status');
+        $product->user_id = Auth::user()->id;
+        $product->save();
+        
+        return redirect()->route('backend.products.index');
     }
 
     /**
@@ -73,7 +120,9 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        //
+        $categories = Category::all();
+        $product = Product::where('id', $id)->first();   
+        return view('backend.products.update', ['product' => $product, 'categories' => $categories]);
     }
 
     /**
@@ -83,9 +132,12 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreProductRequest $request, $id)
     {
-        //
+        $product = $request->except('_token', 'files');
+        Product::where('id', $id)->update($product,);
+        
+        return redirect()->route('backend.products.index');
     }
 
     /**
@@ -96,6 +148,7 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Product::where('id', $id)->delete();
+        return redirect()->route('backend.products.index');
     }
 }

@@ -1,5 +1,5 @@
 <li class="nav-item has-treeview" style="border-bottom: 1px solid; margin-left: 10px;">
-    <a href="{{route('backend.products.index', $category->slug)}}" class="nav-link">
+    <a href="/admin/products/{{$category->slug}}" class="nav-link">
             {{$category->name }}     
             @if ($category->children)  <i class="fas fa-angle-left right"></i> @endif
          </a>

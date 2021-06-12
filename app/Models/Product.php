@@ -10,7 +10,20 @@ class Product extends Model
     use HasFactory;
     protected $table = "products";
 
-    protected $fillable = ['name', 'slug', 'origin_price', 'sale_price', 'content', 'user_id'];
+    const STATUS_INT = 0;
+    const STATUS_BUY = 1; 
+    const STATUS_STOP = -1;
+
+    public static $status_text = [
+        self::STATUS_INT => 'Đang nhập',
+        self::STATUS_BUY => 'Đang bán',
+        self::STATUS_STOP => 'Dừng bán',
+
+    ];
+
+
+
+    protected $fillable = ['name', 'slug', 'origin_price', 'sale_price', 'content', 'user_id', 'status'];
 
     public function category(){
         return $this->belongsTo(Category::class);

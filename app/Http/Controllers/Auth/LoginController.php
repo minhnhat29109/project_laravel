@@ -24,18 +24,20 @@ class LoginController extends Controller
         ]);      
             if (Auth::attempt($data)) 
             {
-                $request->session()->regenerate();
+                
                 if (Auth::user()->role == 1) {
+                    $request->session()->regenerate();
                     return redirect()->intended('admin'); 
                 }else{
+                    $request->session()->regenerate();
                     return redirect()->intended('/');
                 }
-            }else
-            {
+            }
+            
                 return back()->withErrors([
                     'email' => 'Email không đúng'
 
                 ]);
-            }
+            
     }
 }
