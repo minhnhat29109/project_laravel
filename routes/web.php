@@ -19,6 +19,9 @@ use Illuminate\Support\Facades\Route;
 // });
 Route::get('/', 'Frontend\HomeController@index')->name('frontend.home');
 
+Route::get('/show/{id}', 'Frontend\HomeController@show')->name('frontend.home.product-detail');
+
+
 Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login.form');
 
 Route::post('/login', 'Auth\LoginController@login')->name('login.store');
@@ -26,6 +29,7 @@ Route::post('/login', 'Auth\LoginController@login')->name('login.store');
 Route::get('/logout', 'Auth\LogoutController@logout')->name('logout');
 
 Route::get('/register', 'Auth\RegisterController@showRegistrationForm')->name('register.form');
+
 Route::post('/register', 'Auth\RegisterController@register')->name('register.post');
 
 
@@ -45,8 +49,8 @@ Route::group([
     // products
 
     Route::prefix('products')->group(function () {
-        Route::get('/danh-sach-san-pham', 'ProductController@index')->name('backend.products.index');
-        Route::get('/them-moi', 'ProductController@create')->name('backend.products.create');
+        Route::get('/show', 'ProductController@index')->name('backend.products.index');
+        Route::get('/create', 'ProductController@create')->name('backend.products.create');
         Route::get('/edit/{id}', 'ProductController@edit')->name('backend.products.edit');
 
         
@@ -56,9 +60,9 @@ Route::group([
 
 
     //category
-        Route::get('/danh-sach-danh-muc', 'CategoryController@index')->name('backend.category.index');
-        Route::get('/them-moi-danh-muc', 'CategoryController@create')->name('backend.category.create');
-        Route::post('/category/create', 'CategoryController@store')->name('backend.category.store');
+        Route::get('/category/show', 'CategoryController@index')->name('backend.category.index');
+        Route::get('/category/create', 'CategoryController@create')->name('backend.category.create');
+        Route::post('/category/store', 'CategoryController@store')->name('backend.category.store');
 
         Route::get('/category/edit/{id}', 'CategoryController@edit')->name('backend.category.edit');
         Route::post('/category/update/{id}', 'CategoryController@update')->name('backend.category.update');

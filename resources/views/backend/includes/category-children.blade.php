@@ -3,19 +3,13 @@
             {{$category->name }}     
             @if ($category->children)  <i class="fas fa-angle-left right"></i> @endif
          </a>
-    
     @if ($category->children)
         <ul class="nav nav-treeview">
             @foreach ($category->children as $children)
                 <li class="nav-item"  >
                     @include("backend.includes.category-children", ['category'=>$children])
                 </li>
-                    {{-- <li>{{$children->name}}</li> --}}
             @endforeach
-            
-
-            
-            {{-- {{$category}} --}}
         </ul>
        
     @endif

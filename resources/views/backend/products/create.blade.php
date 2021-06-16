@@ -30,7 +30,7 @@
 
 
 <div class="container-fluid">
-    <form role="form" method="post" action="{{ route('backend.products.store') }}" style="height: auto">
+    <form role="form" method="post" action="{{ route('backend.products.store') }}" enctype="multipart/form-data">
         @csrf
         <div class="card-body">
           
@@ -66,7 +66,7 @@
                         <input type="text" name="sale_price" value="{{old('sale_price')}}" class="form-control" placeholder="Điền giá bán">
 
                         @error('sale_price')
-                             <<p class="text-danger">{{ $message }}</p>
+                             <p class="text-danger">{{ $message }}</p>
                          @enderror
                     </div>
                 </div>
@@ -79,17 +79,14 @@
                             <p class="text-danger">{{ $message }}</p>
                          @enderror
             </div>
+
             <div class="form-group">
                 <label for="exampleInputFile">Hình ảnh sản phẩm</label>
                 <div class="input-group">
-                    <div class="custom-file">
-                        <input type="file" class="custom-file-input" value="{{old('image')}}" name="image" id="exampleInputFile">
-                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                        
-                    </div>
+                    <input type="file" name="images[]" multiple>
                     
                 </div>
-                @error('image')
+                @error('images')
                     <p class="text-danger">{{ $message }}</p>
                 @enderror
             </div>

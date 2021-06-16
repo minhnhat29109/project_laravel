@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
@@ -21,7 +22,7 @@ class ProductController extends Controller
     public function index()
     {
         // $product = Category::find($id)->products()->where('status', 1)->get();
-        $products = Product::orderBy('id', 'desc')->paginate(15);
+        $products = Product::orderBy('id', 'desc')->paginate(10);
         return view('backend.products.index', ['products' => $products]);
     }
 
@@ -44,6 +45,8 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
+
+        
     //     $validatedData = $request->validate([
     //     'name'         => 'required|min:10|max:255',
     //     'origin_price' => 'required|numeric',
@@ -74,10 +77,10 @@ class ProductController extends Controller
     // if ($validatedData == null) {
     //     return back()->withErrors(['name' => 'Email không đúng']);
     // }
-        
+    
         $product = new Product();
         $product->name = $request->get('name');
-        $product->slug = \Illuminate\Support\Str::slug($request->get('name'));
+        $product->slug = \Illuminate\Support\Str::slug($request->get('name')).'-MS'.rand(1000, 9999);
         $product->category_id = $request->get('category_id');
         $product->origin_price = $request->get('origin_price');
         $product->sale_price = $request->get('sale_price');
@@ -85,6 +88,29 @@ class ProductController extends Controller
         $product->status = $request->get('status');
         $product->user_id = Auth::user()->id;
         $product->save();
+
+        if ($request->hasFile('images'))
+        {
+            $disk = 'public';
+            $files = $request->file('images');
+            foreach ($files as $file) {
+                $name = $file->getClientOriginalName();
+                $path = Storage::disk($disk)->putFileAs('images', $file, $name);
+                $images = new Image();
+                $images->name = $name;
+                $images->disk = $disk;
+                $images->path = $path;
+                $images->product_id = $product->id;
+                $images->save();
+            }
+            
+        }else{
+            dd('khong co anh');
+        }
+        
+        
+
+        
         
         return redirect()->route('backend.products.index');
     }
@@ -134,9 +160,8 @@ class ProductController extends Controller
      */
     public function update(StoreProductRequest $request, $id)
     {
-        $product = $request->except('_token', 'files');
+        $product = $request->except('_token', 'files', 'image');
         Product::where('id', $id)->update($product,);
-        
         return redirect()->route('backend.products.index');
     }
 
