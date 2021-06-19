@@ -48,9 +48,7 @@
                         <tr>
                             <th>ID</th>
                             <th>Tên danh mục</th>
-                            <th>ID Danh mục cha</th>
                             <th>Xử lý</th>
-                            
                         </tr>
                         </thead>
                         <tbody>
@@ -58,8 +56,6 @@
                             <tr>
                                 <td>{{ $category->id }}</td>
                                 <td>{{ $category->name }}</td>
-                                <td>{{ $category->parent_id}}</td>
-
                                 <td>
                                     <a href="{{route('backend.category.edit', $category->id)}}" class="btn btn-warning">Sửa</a>
                                     <a href="{{route('backend.category.delete', $category->id)}}" class="btn btn-danger">Xóa</a>

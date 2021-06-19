@@ -11,9 +11,9 @@ class Product extends Model
     use HasFactory;
     protected $table = "products";
 
-    // const STATUS_INT = 0;
-    // const STATUS_BUY = 1; 
-    // const STATUS_STOP = -1;
+    const STATUS_INT = 0;
+    const STATUS_BUY = 1; 
+    const STATUS_STOP = -1;
 
     public static $status_text = [
         0 => 'Đang nhập',

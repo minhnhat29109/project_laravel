@@ -7,8 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Middleware\Authenticate;
-
-
+use Illuminate\Support\Facades\Gate;
 
 class LoginController extends Controller
 {
@@ -24,13 +23,12 @@ class LoginController extends Controller
         ]);      
             if (Auth::attempt($data)) 
             {
-                
-                if (Auth::user()->role == 1) {
-                    $request->session()->regenerate();
-                    return redirect()->intended('admin'); 
-                }else{
-                    $request->session()->regenerate();
-                    return redirect()->intended('/');
+                $request->session()->regenerate();
+
+                if (Gate::allows('login')) {
+                    return redirect()->route('backend.dashboard'); 
+                }else {
+                    return redirect()->route('frontend.home');
                 }
             }
             

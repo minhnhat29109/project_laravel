@@ -37,11 +37,8 @@ Route::post('/register', 'Auth\RegisterController@register')->name('register.pos
 Route::group([
     'namespace' => 'Backend',
     'prefix' => 'admin',
-    'middleware' => 'auth'
+    'middleware' => ['auth', 'check_admin'],
 ], function (){
-    //login
-
-
     // DashBoard
 
     Route::get('/', 'DashboardController@index')->name('backend.dashboard');
@@ -51,55 +48,48 @@ Route::group([
     Route::prefix('products')->group(function () {
         Route::get('/show', 'ProductController@index')->name('backend.products.index');
         Route::get('/create', 'ProductController@create')->name('backend.products.create');
-        Route::get('/edit/{id}', 'ProductController@edit')->name('backend.products.edit');
-
-        
+        Route::get('/edit/{product}', 'ProductController@edit')->name('backend.products.edit');
         Route::post('/create', 'ProductController@store')->name('backend.products.store');
         Route::post('/update/{id}', 'ProductController@update')->name('backend.products.update');
         Route::get('/delete/{id}', 'ProductController@destroy')->name('backend.products.delete');
+    });
 
 
     //category
-        Route::get('/category/show', 'CategoryController@index')->name('backend.category.index');
-        Route::get('/category/create', 'CategoryController@create')->name('backend.category.create');
-        Route::post('/category/store', 'CategoryController@store')->name('backend.category.store');
+    Route::prefix('categoies')->group(function(){
 
-        Route::get('/category/edit/{id}', 'CategoryController@edit')->name('backend.category.edit');
-        Route::post('/category/update/{id}', 'CategoryController@update')->name('backend.category.update');
-        Route::get('/category/delete/{id}', 'CategoryController@destroy')->name('backend.category.delete');
+        Route::get('/show', 'CategoryController@index')->name('backend.category.index');
+        Route::get('/create', 'CategoryController@create')->name('backend.category.create');
+        Route::post('/store', 'CategoryController@store')->name('backend.category.store');
+        Route::get('/edit/{id}', 'CategoryController@edit')->name('backend.category.edit');
+        Route::post('/update/{id}', 'CategoryController@update')->name('backend.category.update');
+        Route::get('/delete/{id}', 'CategoryController@destroy')->name('backend.category.delete');
+    });    
+    //Users
+    Route::prefix('users')->group(function(){
+        Route::get('/show', 'UserController@index')->name('backend.user.index');
+        Route::get('/create', 'UserController@create')->name('backend.user.create');
+        Route::post('/store', 'UserController@store')->name('backend.user.store');
+        Route::get('/edit/{id}', 'UserController@edit')->name('backend.user.edit');
+        Route::post('/update/{id}', 'UserController@update')->name('backend.user.update');
 
 
 
+    });  
 
+    //Orders
+    Route::prefix('orders')->group(function(){
+        Route::get('/show', 'OrderController@index')->name('backend.order.index');
+        Route::get('/create', 'OrderController@create')->name('backend.order.create');
+    });
 
-
-
+        
 
 
         Route::get('/images/{id}', 'ProductController@showImages')->name('backend.products.showImagesByProductID');
-
         Route::get('/showProductsByCategoryID/{id}', 'CategoryController@showProducts')->name('backend.products.showProductsByCategoryID');
-
         Route::get('/showProductsByUserID/{id}', 'ProductController@showProducts')->name('backend.products.showProductsByUserID');
-
         Route::get('/showProductsByOrderID/{id}', 'OrderController@showProducts')->name('backend.products.showProductsByOrderID');
-
-
-
-
-    });
-
-    //
-
-    // Users
-
-    Route::prefix('users')->group(function () {
-        Route::get('/', 'UserController@index')->name('backend.users.index');
-
-        Route::get('/create', 'UserController@create')->name('backend.users.create');
-    });
-
-    
 
 });
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {

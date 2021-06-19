@@ -58,8 +58,9 @@ class DashboardController extends Controller
         // foreach ($products as $product){
         //     dd($product->pivot->get());
         // }
-
-
-        return view('backend.dashboard');
+        $users = User::all();
+        $products = Product::all();
+        $orders = Order::all();
+        return view('backend.dashboard', ['users' => $users, 'products' => $products, 'orders' => $orders]);
     }
 }

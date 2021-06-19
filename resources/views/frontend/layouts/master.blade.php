@@ -74,7 +74,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row your-class">
+            <div class="row slick-product">
                 @foreach ($products as $product)
                     @if ($category->id == $product->category_id)
                         <div class="col-md-3 col-sm-6 col-xs-6">
@@ -114,7 +114,7 @@
             </div>
 
         </div>
-    @endforeach
+    @endforeach 
     <!-- /section -->
 
     <!-- FOOTER -->

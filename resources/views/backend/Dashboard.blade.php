@@ -33,7 +33,7 @@
                 <!-- small box -->
                 <div class="small-box bg-info">
                     <div class="inner">
-                        <h3>150</h3>
+                        <h3>{{count($orders)}}</h3>
 
                         <p>Đơn hàng</p>
                     </div>
@@ -48,7 +48,7 @@
                 <!-- small box -->
                 <div class="small-box bg-success">
                     <div class="inner">
-                        <h3>5300</h3>
+                        <h3>{{count($products)}}</h3>
 
                         <p>Sản phẩm</p>
                     </div>
@@ -63,7 +63,7 @@
                 <!-- small box -->
                 <div class="small-box bg-warning">
                     <div class="inner">
-                        <h3>44</h3>
+                        <h3>{{count($users)}}</h3>
 
                         <p>Người dùng</p>
                     </div>
@@ -115,40 +115,31 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Tên sản phẩm</th>
+                                <th>Ảnh</th>
+                                <th>Giá bán</th>
                                 <th>Thời gian</th>
-                                <th>Status</th>
-                                <th>Mô tả</th>
+                                <th>Trạng thái</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>183</td>
-                                <td>John Doe</td>
-                                <td>11-7-2014</td>
-                                <td><span class="tag tag-success">Approved</span></td>
-                                <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                            </tr>
-                            <tr>
-                                <td>219</td>
-                                <td>Alexander Pierce</td>
-                                <td>11-7-2014</td>
-                                <td><span class="tag tag-warning">Pending</span></td>
-                                <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                            </tr>
-                            <tr>
-                                <td>657</td>
-                                <td>Bob Doe</td>
-                                <td>11-7-2014</td>
-                                <td><span class="tag tag-primary">Approved</span></td>
-                                <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                            </tr>
-                            <tr>
-                                <td>175</td>
-                                <td>Mike Doe</td>
-                                <td>11-7-2014</td>
-                                <td><span class="tag tag-danger">Denied</span></td>
-                                <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                            </tr>
+                                @forelse ($products as $product)
+                                    @if ($product->status == \App\Models\Product::STATUS_INT)
+                                    <tr>
+                                        <td>{{ $product->id }}</td>
+                                        <td>{{ $product->name }}</td>
+                                        @if (count($product->images) > 0)
+                                            <td><img src="{{$product->images[0]->image_url}}" style="width: 60px" alt=""></td>
+                                        @else
+                                            <td>Không có ảnh</td>
+                                        @endif
+                                        <td>{{number_format($product->sale_price) }} VNĐ</td>
+                                        <td>11-7-2014</td>
+                                        <td><span class="tag tag-danger">{{ $product->status_text }}</span></td>
+                                    </tr>
+                                    @endif
+                                @empty
+                                    <p>Phông có sản phẩm</p>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>

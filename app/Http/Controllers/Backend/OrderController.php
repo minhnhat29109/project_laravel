@@ -15,7 +15,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
+        return view('backend.orders.index');
     }
 
     /**
@@ -25,7 +25,8 @@ class OrderController extends Controller
      */
     public function create()
     {
-        //
+        return view('backend.orders.create');
+        
     }
 
     public function showProducts($id){

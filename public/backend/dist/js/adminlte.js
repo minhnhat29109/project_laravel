@@ -2963,3 +2963,25 @@
 })));
 //# sourceMappingURL=adminlte.js.map
 
+// let count  = 0;
+// function previewFiles(input){
+//   const preview = document.getElementById('preview')
+//   const {files}  = input
+
+//   Array.from(files).forEach(file =>{
+//     const reader = new FileReader()
+
+//     reader.onload = e =>{
+//       const img = document.createElement('img')
+//        img.src = e.target.result
+//        img.width = 200
+//        img.height = 200
+    
+
+//        preview.appendChild(img)
+//     }
+
+//     reader.readAsDataURL(file)
+//   })
+// }
+

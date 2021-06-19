@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Attribute;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -27,13 +28,25 @@ class User extends Authenticatable
         return $this->hasMany(Product::class);
     }
 
+    public function userInfo(){
+        return $this->hasOne(UserInfo::class, 'user_id');
+    }
     
     protected $fillable = [
         'name',
         'email',
         'password',
+        'role', 
     ];
 
+    const ADMIN = 1;
+    const USER = 0;
+    const EMPLOYER = 2;
+    public static $status_text = [
+        0 => 'Người dùng',
+        1 => 'Admin',
+        2 => 'Nhân viên'
+    ];
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -63,4 +76,8 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function getStatusTextAttribute(){
+        return self::$status_text[$this->role];
+    }
 }

@@ -72,10 +72,15 @@
                                         <td>11-7-2014</td>
                                         <td><span class="tag tag-danger">{{ $product->status_text }}</span></td>
                                         <td>
+                                         @can ('update-product', $product)
                                             <a href="{{ route('backend.products.edit', $product->id) }}"
                                                 class="btn btn-warning">Sửa</a>
                                             <a href="{{ route('backend.products.delete', $product->id) }}"
-                                                class="btn btn-danger">Xóa</a>
+                                                class="btn btn-danger">Xóa</a> 
+                                         @endcan
+                                                
+                                          
+                                            
                                         </td>
                                     </tr>
                                 @empty

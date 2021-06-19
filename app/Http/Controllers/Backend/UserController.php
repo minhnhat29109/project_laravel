@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreUserRequest;
+use App\Models\User;
+use App\Models\UserInfo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -14,7 +18,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('backend.users.index');
+        $users = User::all();
+        return view('backend.users.index', ['users' => $users]);
     }
 
     /**
@@ -24,6 +29,7 @@ class UserController extends Controller
      */
     public function create()
     {
+        $this->authorize('create');
         return view('backend.users.create');
     }
 
@@ -35,7 +41,20 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = new User();
+        $user->name = $request->get('name');
+        $user->email = $request->get('email');
+        $user->password = Hash::make($request->get('password'));
+        $user->role = $request->get('role');
+        $user->save();
+        if ($user) {
+            $user_info = new UserInfo();
+            $user_info->address = $request->get('address');
+            $user_info->phone = $request->get('phone');
+            $user_info->user_id = $user->id;
+            $user_info->save();
+        }
+        return redirect()->route('backend.user.index');
     }
 
     /**
@@ -57,7 +76,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::where('id', $id)->first();
+        return view('backend.users.update', ['user' => $user]);
     }
 
     /**
@@ -68,8 +88,18 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-        //
+    {   
+        $name = $request->get('name');
+        $email = $request->get('email');
+        $password = Hash::make($request->get('password'));
+        $role = $request->get('role');
+        $result = User::where('id', $id)->update(['name' => $name, 'email' => $email, 'password' => $password, 'role' => $role]);
+        if ($result) {
+            $phone = $request->get('phone');
+            $address = $request->get('address');
+            UserInfo::where('user_id', $id)->update(['phone' => $phone, 'address' => $address]);
+        }
+        return redirect()->route('backend.user.index');
     }
 
     /**

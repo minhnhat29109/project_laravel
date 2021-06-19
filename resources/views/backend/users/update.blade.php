@@ -15,7 +15,7 @@
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
                 <li class="breadcrumb-item"><a href="#">Người dùng</a></li>
-                <li class="breadcrumb-item active">Tạo mới</li>
+                <li class="breadcrumb-item active">Cập nhật</li>
             </ol>
         </div><!-- /.col -->
     </div><!-- /.row -->
@@ -33,28 +33,28 @@
             <div class="card">
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form role="form" method="post" action="{{route('backend.user.store')}}">
+                <form role="form" method="post" action="{{route('backend.user.update', $user->id)}}">
                     @csrf
                     <div class="card-body">
                         <div class="form-group">
                             <label for="exampleInputEmail1">Tên</label>
-                            <input type="text" name="name" class="form-control" id="" placeholder="Tên người dùng">
+                            <input type="text" name="name" value="{{$user->name}}" class="form-control" id="" placeholder="Tên người dùng">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">Email</label>
-                            <input type="email" name="email" class="form-control" id="" placeholder="Email">
+                            <input type="email" name="email" value="{{$user->email}}" class="form-control" id="" placeholder="Email">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">Mật khẩu</label>
-                            <input type="password" name="password" class="form-control" id="">
+                            <input type="password" name="password"  class="form-control" id="">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">Số điện thoại</label>
-                            <input type="text" name="phone" class="form-control" id="">
+                            <input type="text" name="phone" value="{{$user->userInfo->phone}}" class="form-control" id="">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">Địa chỉ</label>
-                            <input type="text" name="address" class="form-control" id="">
+                            <input type="text" name="address" value="{{$user->userInfo->address}}" class="form-control" id="">
                         </div>
                         <div class="form-group">
                             <label>Quyền</label>
@@ -69,7 +69,7 @@
 
                     <div class="card-footer">
                         <button type="submit" class="btn btn-default">Huỷ bỏ</button>
-                        <button type="submit" class="btn btn-sucess">Tạo mới</button>
+                        <button type="submit" class="btn btn-sucess">Cập nhật</button>
                     </div>
                 </form>
             </div>

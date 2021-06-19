@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -107,11 +108,6 @@ class ProductController extends Controller
         }else{
             dd('khong co anh');
         }
-        
-        
-
-        
-        
         return redirect()->route('backend.products.index');
     }
 
@@ -148,9 +144,9 @@ class ProductController extends Controller
     {
         $categories = Category::all();
         $product = Product::where('id', $id)->first();   
-        return view('backend.products.update', ['product' => $product, 'categories' => $categories]);
+        $this->authorize('update', $product);
+        return view('backend.products.update', ['product' => $product, 'categories' => $categories]);   
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -158,7 +154,7 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreProductRequest $request, $id)
+    public function update(Request $request, $id)
     {
         $product = $request->except('_token', 'files', 'image');
         Product::where('id', $id)->update($product,);

@@ -77,29 +77,31 @@
                         </li>
                     </ul>
                 </li>
-
-                <li class="nav-item has-treeview">
-                    <a href="#" class="nav-link">
-                        <p>
-                            Quản lý người dùng
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{route('backend.category.create')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Tạo mới</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{route('backend.category.index')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Danh sách</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                @can('login-admin')
+                    <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link">
+                            <p>
+                                Quản lý người dùng
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{route('backend.user.create')}}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Tạo mới</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{route('backend.user.index')}}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Danh sách</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endcan
+                
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link">
                         <p>
@@ -109,13 +111,13 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{route('backend.category.create')}}" class="nav-link">
+                            <a href="{{route('backend.order.create')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Tạo mới</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route('backend.category.index')}}" class="nav-link">
+                            <a href="{{route('backend.order.index')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Danh sách</p>
                             </a>
