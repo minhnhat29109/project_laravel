@@ -23,6 +23,8 @@ Route::get('/show/{id}', 'Frontend\HomeController@show')->name('frontend.home.pr
 
 Route::post('search/name', 'Frontend\HomeController@getSearchAjax')->name('search');
 
+Route::get('products/view-all', 'Frontend\ProductController@index')->name('frontend.product.viewAll');
+
 Route::get('products/cart/list', 'Frontend\CartController@index')->name('frontend.cart.index');
 
 Route::get('products/cart/add/{id}', 'Frontend\CartController@add')->name('frontend.cart.add');

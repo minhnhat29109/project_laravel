@@ -21,9 +21,13 @@
             <div class="menu-nav">
                 <span class="menu-header">Menu <i class="fa fa-bars"></i></span>
                 <ul class="menu-list">
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Shop</a></li>
-                    <li class="dropdown mega-dropdown"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Women <i class="fa fa-caret-down"></i></a>
+                    <li><a href="{{route('frontend.home')}}">Trang chủ</a></li>
+                    <li><a href="{{route('frontend.product.viewAll')}}">Tất cả sản phẩm</a></li>
+                    <li><a href="#">Giày nam</a></li>
+                    <li><a href="#">Giày nữ</a></li>
+                    <li><a href="#">Trẻ em</a></li>
+                    <li><a href="#">Giới thiệu</a></li>
+                    {{-- <li class="dropdown mega-dropdown"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Women <i class="fa fa-caret-down"></i></a>
                         <div class="custom-menu">
                             <div class="row">
                                 <div class="col-md-4">
@@ -170,7 +174,7 @@
                             <li><a href="product-page.html">Product Details</a></li>
                             <li><a href="checkout.html">Checkout</a></li>
                         </ul>
-                    </li>
+                    </li> --}}
                 </ul>
             </div>
             <!-- menu nav -->

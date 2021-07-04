@@ -77,7 +77,7 @@
                         <div class="custom-menu">
                             <div id="shopping-cart">
                                 <div class="shopping-cart-list">
-                                    @foreach ((Cart::content()) as $item )
+                                    @forelse ((Cart::content()) as $item )
                                     <div class="product product-widget">
                                         @if ($item->options->image)
                                         <div class="product-thumb">
@@ -96,12 +96,17 @@
                                         </div>
                                         <a href="{{route('frontend.cart.remove', $item->rowId)}}"><button class="cancel-btn"><i class="fa fa-trash"></i></button></a>
                                     </div>
-                                    @endforeach
+                                    @empty
+                                        <p class="text-center">Giỏ hàng trống</p>
+                                    @endforelse
                                 </div>
-                                <div class="shopping-cart-btns">
-                                    <a href="{{route('frontend.cart.index')}}"><button class="main-btn">Giỏ hàng</button></a>
-                                    <a href="{{route('frontend.cart.index')}}"><button class="primary-btn">Thanh toán <i class="fa fa-arrow-circle-right"></i></button></a>
-                                </div>
+                                @if (Cart::count() > 0)
+                                    <div class="shopping-cart-btns">
+                                        <a href="{{route('frontend.cart.index')}}"><button class="main-btn">Giỏ hàng</button></a>
+                                        <a href="{{route('frontend.cart.index')}}"><button class="primary-btn">Thanh toán <i class="fa fa-arrow-circle-right"></i></button></a>
+                                    </div>
+                                @endif
+                                
                             </div>
                         </div>
                     </li>
