@@ -6,7 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\StoreProductRequest;
 use App\Models\Category;
+use App\Models\Product;
+use App\Models\User;
+use App\Models\UserInfo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class CategoryController extends Controller
 {
@@ -30,7 +34,7 @@ class CategoryController extends Controller
     {
         $categories = Category::all();
         return view("backend.category.create", ['categories' => $categories]);
-        
+        Cache::forget('categories');
     }
 
     /**
@@ -56,6 +60,9 @@ class CategoryController extends Controller
             $categories->save();
             return redirect()->route('backend.category.index');
         }
+
+        Cache::forget('categories');
+
     }
 
     /**
@@ -80,6 +87,8 @@ class CategoryController extends Controller
         $categories = Category::all();
         $category = Category::where('id', $id)->first();   
         return view('backend.category.update', ['category' => $category, 'categories' => $categories]);
+
+        Cache::forget('categories');
     }
 
     /**
@@ -105,7 +114,7 @@ class CategoryController extends Controller
             Category::where('id', $id)->update(['name'=> $name, 'slug' => $slug, 'parent_id' => $parent_id]);
             return redirect()->route('backend.category.index');
         }
-        
+        Cache::forget('categories');
     }
 
     /**
@@ -117,6 +126,9 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         Category::where('id', $id)->delete();
+        Product::where('category_id', $id)->update(['category_id'=> User::SUPPER_ADMIN]);
         return redirect()->route('backend.category.index');
+        Cache::forget('categories');
+
     }
 }

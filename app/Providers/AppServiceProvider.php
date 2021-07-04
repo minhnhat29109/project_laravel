@@ -1,8 +1,12 @@
 <?php
 
 namespace App\Providers;
-use Illuminate\Pagination\Paginator;
 
+use App\Models\Category;
+use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -24,6 +28,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        
+        $categories = Cache::remember('categories', 60000, function () {
+            return Category::all();
+        });
+        view()->share('categories', $categories);
+
+        
         Paginator::useBootstrap();
     }
 }

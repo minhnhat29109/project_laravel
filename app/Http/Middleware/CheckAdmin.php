@@ -19,7 +19,7 @@ class CheckAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::user()->role !== User::ADMIN && Auth::user()->role !== User::EMPLOYER ) {
+        if (Auth::user()->role !== User::ADMIN && Auth::user()->role !== User::EMPLOYER  && Auth::user()->role !== User::SUPPER_ADMIN) {
             return redirect()->route('frontend.home');
         }
         return $next($request);

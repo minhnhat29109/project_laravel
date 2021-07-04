@@ -23,7 +23,30 @@ class StoreUserRequest extends FormRequest
      */
     public function rules()
     {
-       
+        return [
+            'name' => 'required|max:255',
+            'email' => 'required|email',
+            'password' => 'required|min:6',
+            'phone' => 'required|min:10',
+            'address' => 'required',
+            'role' => 'required',
+    ];
     }
-
+    public function messages()
+    {
+        return[
+            'name.required' => 'Nhập tên người dùng',
+            'email.required' => 'Nhập email',
+            'email.email' => 'Nhập đúng email',
+            'password.required' => 'Nhập mật khẩu',
+            'phone.required' => 'Nhập số điện thoại',
+            'address.required' => 'Nhập địa chỉ',
+        ];
+    }
+    public function attributes()
+    {
+        return[
+            'name' => 'tên',
+        ];
+    }
 }

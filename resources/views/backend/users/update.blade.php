@@ -68,8 +68,8 @@
                     <!-- /.card-body -->
 
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-default">Huỷ bỏ</button>
-                        <button type="submit" class="btn btn-sucess">Cập nhật</button>
+                        <button class="btn btn-default">Huỷ bỏ</button>
+                        <button class="btn btn-sucess">Cập nhật</button>
                     </div>
                 </form>
             </div>

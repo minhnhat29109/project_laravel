@@ -25,7 +25,18 @@
     <!-- Daterange picker -->
     <link rel="stylesheet" href="/backend/plugins/daterangepicker/daterangepicker.css">
     <!-- summernote -->
+    <link rel="stylesheet" type="text/css" href="/backend/DataTables/datatables.min.css"/>
+
     <link rel="stylesheet" href="/backend/plugins/summernote/summernote-bs4.css">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" 
+     href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <style>
+        .disable-row[disabled] td {
+            filter: blur(1px);
+            background-color: rgb(230, 230, 230);
+            pointer-events: none;
+        } 
+    </style>
 </head>

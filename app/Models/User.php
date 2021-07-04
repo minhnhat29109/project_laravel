@@ -39,13 +39,14 @@ class User extends Authenticatable
         'role', 
     ];
 
-    const ADMIN = 1;
+    const SUPPER_ADMIN = -1;
     const USER = 0;
+    const ADMIN = 1;
     const EMPLOYER = 2;
     public static $status_text = [
         0 => 'Người dùng',
         1 => 'Admin',
-        2 => 'Nhân viên'
+        2 => 'Nhân viên',
     ];
     /**
      * The attributes that should be hidden for arrays.

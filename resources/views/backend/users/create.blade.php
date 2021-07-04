@@ -39,22 +39,37 @@
                         <div class="form-group">
                             <label for="exampleInputEmail1">Tên</label>
                             <input type="text" name="name" class="form-control" id="" placeholder="Tên người dùng">
+                            @error('name')
+                                <p class="text-danger">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">Email</label>
                             <input type="email" name="email" class="form-control" id="" placeholder="Email">
+                            @error('email')
+                                <p class="text-danger">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">Mật khẩu</label>
                             <input type="password" name="password" class="form-control" id="">
+                            @error('password')
+                                <p class="text-danger">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">Số điện thoại</label>
                             <input type="text" name="phone" class="form-control" id="">
+                            @error('phone')
+                                <p class="text-danger">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">Địa chỉ</label>
                             <input type="text" name="address" class="form-control" id="">
+                            @error('address')
+                                <p class="text-danger">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div class="form-group">
                             <label>Quyền</label>
@@ -63,13 +78,16 @@
                                     <option value="{{$key}}">{{$value}}</option>
                                 @endforeach
                             </select>
+                            @error('role')
+                                <p class="text-danger">{{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
                     <!-- /.card-body -->
 
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-default">Huỷ bỏ</button>
-                        <button type="submit" class="btn btn-sucess">Tạo mới</button>
+                        <a href="{{route('backend.user.index')}}"><button type="submit" class="btn btn-default">Huỷ bỏ</button></a>
+                        <button  type="submit" class="btn btn-sucess">Tạo mới</button>
                     </div>
                 </form>
             </div>

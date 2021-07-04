@@ -44,7 +44,7 @@
             <div class="form-group">
                 <label>Danh mục sản phẩm</label>
                 <select name="category_id" value="{{old('category_id')}}" class="form-control select2" style="width: 100%;">
-                    <option>--Chọn danh mục---</option>
+                    <option value=""><-- Chọn danh mục --></option>
                     @foreach($categories as $category)
                         <option value="{{ $category->id }}">{{ $category->name }}</option>
                     @endforeach
@@ -83,8 +83,7 @@
             <div class="form-group">
                 <label for="exampleInputFile">Hình ảnh sản phẩm</label>
                 <div class="input-group">
-                    <input type="file" name="images[]" multiple>
-                    
+                    <input type="file" name="images[]" multiple> 
                 </div>
                 @error('images')
                     <p class="text-danger">{{ $message }}</p>

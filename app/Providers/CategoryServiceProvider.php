@@ -25,7 +25,7 @@ class CategoryServiceProvider extends ServiceProvider
     public function boot()
     {
         view()->composer('backend.includes.sidebar', MenuCategoryComposer::class);
-        view()->composer('frontend.includes.sidebar', MenuCategoryComposer::class);
+        view()->composer('frontend.includes.navbar', MenuCategoryComposer::class);
 
     }
 }

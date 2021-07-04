@@ -27,22 +27,14 @@
 
         <div class="col-12">
             <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Danh sách người dùng</h3>
-
-                    <div class="card-tools">
-                        <div class="input-group input-group-sm" style="width: 150px;">
-                            <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-
-                            <div class="input-group-append">
-                                <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <!-- /.card-header -->
+                    @if (Cookie::get('success') != '')
+                        <div class="alert alert-primary" role="alert">
+                            {{Cookie::get('success')}}
+                        </div>
+                        @endif
                 <div class="card-body table-responsive p-0">
-                    <table class="table table-hover">
+                    <table class="table table-hover data-table">
                         <thead>
                         <tr>
                             <th>ID</th>
@@ -56,7 +48,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach ($users as $user)
+                        @forelse ($users as $user)
                             <tr>
                                 <td>{{$user->id}}</td>
                                 <td>{{$user->email}}</td>
@@ -65,11 +57,18 @@
                                 <td>{{$user->userInfo->address}}</td>
                                 <td>{{$user->created_at}}</td>
                                 <td><span class="tag tag-success">{{$user->status_text}}</span></td>
-                                <td><a href="{{route('backend.user.edit', $user->id)}}"><button class="btn btn-warning">Sửa</button></a>
-                                    <a href=""><button class="btn btn-danger">Xóa</button></a>
+                                <td><a href="{{route('backend.user.edit', $user->id)}}"><button class="btn btn-warning" >
+                                    <i class="fas fa-edit"></i>
+                                </button></a>
+                                    <a href="{{route('backend.user.delete', $user->id)}}" onclick="return confirm('Bạn có muốn Xỏa?')">
+                                        <button class="btn btn-danger" >
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button></a>
                                 </td>
-                            </tr>                            
-                        @endforeach
+                            </tr>  
+                            @empty
+                            <p>Không có dữ liệu</p>                          
+                        @endforelse
                         </tbody>
                     </table>
                 </div>

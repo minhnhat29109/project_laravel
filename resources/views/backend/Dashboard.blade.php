@@ -115,7 +115,7 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Tên sản phẩm</th>
-                                <th>Ảnh</th>
+                                {{-- <th>Ảnh</th> --}}
                                 <th>Giá bán</th>
                                 <th>Thời gian</th>
                                 <th>Trạng thái</th>
@@ -127,14 +127,14 @@
                                     <tr>
                                         <td>{{ $product->id }}</td>
                                         <td>{{ $product->name }}</td>
-                                        @if (count($product->images) > 0)
+                                        {{-- @if (count($product->images) > 0)
                                             <td><img src="{{$product->images[0]->image_url}}" style="width: 60px" alt=""></td>
                                         @else
                                             <td>Không có ảnh</td>
-                                        @endif
+                                        @endif --}}
                                         <td>{{number_format($product->sale_price) }} VNĐ</td>
                                         <td>11-7-2014</td>
-                                        <td><span class="tag tag-danger">{{ $product->status_text }}</span></td>
+                                        <td><span class="rounded w-50 {{$product->status_color}}">{{ $product->status_text }}</span></td>
                                     </tr>
                                     @endif
                                 @empty

@@ -15,13 +15,21 @@ class Product extends Model
     const STATUS_BUY = 1; 
     const STATUS_STOP = -1;
 
+    public static $status_color = [
+        0 => 'bg-warning',
+        1 => 'bg-success',
+        -1 => 'bg-danger',
+    ];
+
     public static $status_text = [
         0 => 'Đang nhập',
         1 => 'Đang bán',
         -1 => 'Dừng bán',
     ];
 
-
+    const NO_CATEGORY = [
+        NULL => 'Không có danh mục',
+    ];
 
     protected $fillable = ['name', 'slug', 'origin_price', 'sale_price', 'content', 'user_id', 'status'];
 
@@ -40,5 +48,8 @@ class Product extends Model
     }
     public function getStatusTextAttribute(){
         return self::$status_text[$this->status];
+    }
+    public function getStatusColorAttribute(){
+        return self::$status_color[$this->status];
     }
 }

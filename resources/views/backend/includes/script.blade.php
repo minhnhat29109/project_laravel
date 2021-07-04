@@ -27,39 +27,70 @@
 <script src="/backend/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
 <!-- AdminLTE App -->
 <script src="/backend/dist/js/adminlte.js"></script>
-<script type="text/javascript">
-	function previewFiles() {
 
-  var preview = document.querySelector('#preview');
-  var files   = document.querySelector('input[type=file]').files;
-
-  function readAndPreview(file) {
-
-    // Make sure `file.name` matches our extensions criteria
-    if ( /\.(jpe?g|png|gif)$/i.test(file.name) ) {
-      var reader = new FileReader();
-
-      reader.addEventListener("load", function () {
-        var image = new Image();
-        image.height = 100;
-        image.title = file.name;
-        image.src = this.result;
-        preview.appendChild( image );
-      }, false);
-
-      reader.readAsDataURL(file);
-    }
-
-  }
-
-  if (files) {
-    [].forEach.call(files, readAndPreview);
-  }
-
-}
-
-</script>
+<script type="text/javascript" src="/backend/DataTables/datatables.min.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="/backend/dist/js/pages/dashboard.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="/backend/dist/js/demo.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+<script>
+  @if(Session::has('success'))
+  		toastr.success("{{ session('success') }}");
+  @endif
+
+  @if(Session::has('error'))
+  		toastr.error("{{ session('error') }}");
+  @endif
+</script>
+<script type="text/javascript">
+  $(document).ready( function () {
+    $('.data-table').DataTable();
+    
+  } );
+
+  $('.data-table').DataTable({
+  order: [[0, 'desc']],
+    language: {
+        processing: "Message khi đang tải dữ liệu",
+        search: "Tìm kiếm",
+        lengthMenu: "Hiển thị _MENU_ ",
+        info: "Bản ghi từ _START_ đến _END_",
+        loadingRecords: "",
+        infoEmpty:"Không có dữ liệu",
+        zeroRecords: "Không có dữ liệu",
+        emptyTable: "Không có dữ liệu",
+        paginate: {
+            first: "Trang đầu",
+            previous: "Trang trước",
+            next: "Trang sau",
+            last: "Trang cuối",
+        },
+        aria: {
+            sortAscending: ": Message khi đang sắp xếp theo column",
+            sortDescending: ": Message khi đang sắp xếp theo column",
+        }
+    },
+  });
+</script>
+
+<script>
+  $('.delete-confirm').click(function(event) {
+  var form =  $(this).closest("form");
+  var name = $(this).data("name");
+  event.preventDefault();
+  swal({
+    title: `Bạn có muốn xóa ${name}?`,
+    text: "Nếu bạn xóa nó, bạn sẽ không thể khôi phục lại được",
+    icon: "error",
+    buttons: ["Không", "Đồng ý"],
+    dangerMode: true,
+  })
+  .then((willDelete) => {
+  if (willDelete) {
+    form.submit();
+  }
+  });
+  });
+</script>

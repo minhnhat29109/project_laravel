@@ -28,7 +28,7 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
         Gate::define('login', function($user){
-            if ($user->role === User::EMPLOYER || $user->role === User::ADMIN) {
+        if ($user->role === User::EMPLOYER || $user->role === User::ADMIN || $user->role === User::SUPPER_ADMIN) {
                 return true;
             }else{
                 return false;
@@ -36,7 +36,7 @@ class AuthServiceProvider extends ServiceProvider
         });
         $this->registerPolicies();
         Gate::define('login-admin', function($user){
-            if ($user->role === User::ADMIN) {
+            if ($user->role === User::SUPPER_ADMIN) {
                 return true;
             }else{
                 return false;
@@ -44,7 +44,7 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('update-product', function($user, $product){
-            if ($user->id == $product->user_id) {
+            if ($user->id == $product->user_id || $user->role === User::SUPPER_ADMIN) {
                 return true;
             }else{
                 return false;

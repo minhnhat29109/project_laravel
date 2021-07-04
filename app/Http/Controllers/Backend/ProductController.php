@@ -9,6 +9,8 @@ use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -23,7 +25,7 @@ class ProductController extends Controller
     public function index()
     {
         // $product = Category::find($id)->products()->where('status', 1)->get();
-        $products = Product::orderBy('id', 'desc')->paginate(10);
+        $products = Product::orderBy('id', 'desc')->get();
         return view('backend.products.index', ['products' => $products]);
     }
 
@@ -78,7 +80,9 @@ class ProductController extends Controller
     // if ($validatedData == null) {
     //     return back()->withErrors(['name' => 'Email không đúng']);
     // }
-    
+        if ($request->get('category_id') == '') {
+            $_POST['category_id'] = null;
+        }
         $product = new Product();
         $product->name = $request->get('name');
         $product->slug = \Illuminate\Support\Str::slug($request->get('name')).'-MS'.rand(1000, 9999);
@@ -88,14 +92,13 @@ class ProductController extends Controller
         $product->content = $request->get('content');
         $product->status = $request->get('status');
         $product->user_id = Auth::user()->id;
-        $product->save();
-
+        $save = $product->save();
         if ($request->hasFile('images'))
         {
             $disk = 'public';
             $files = $request->file('images');
             foreach ($files as $file) {
-                $name = $file->getClientOriginalName();
+                $name = rand(10000000, 99999999).'-'.$file->getClientOriginalName();
                 $path = Storage::disk($disk)->putFileAs('images', $file, $name);
                 $images = new Image();
                 $images->name = $name;
@@ -105,10 +108,10 @@ class ProductController extends Controller
                 $images->save();
             }
             
+            return redirect()->route('backend.products.index')->with('success','Thêm sản phẩm thành công');
         }else{
-            dd('khong co anh');
+            return redirect()->route('backend.products.index')->with('success','Thêm sản phẩm thành công');
         }
-        return redirect()->route('backend.products.index');
     }
 
     /**
@@ -156,9 +159,33 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $product = $request->except('_token', 'files', 'image');
-        Product::where('id', $id)->update($product,);
-        return redirect()->route('backend.products.index');
+        $this->authorize('update');
+        if ($request->hasFile('images')) {
+            $product = $request->except('_token', 'files', 'images');
+            Product::where('id', $id)->update($product);
+            $images = Image::where('product_id', $id)->get();
+            foreach($images as $image){
+                Storage::disk($image->disk)->delete('/'.$image->path);
+                Image::where('product_id', $id)->delete();
+            }
+            $disk = 'public';
+            $files = $request->file('images');
+            foreach ($files as $file) {
+                $name = rand(10000000, 99999999).'-'.$file->getClientOriginalName();
+                $path = Storage::disk($disk)->putFileAs('images', $file, $name);
+                $images = new Image();
+                $images->name = $name;
+                $images->disk = $disk;
+                $images->path = $path;
+                $images->product_id = $id;
+                $images->save();
+            }
+            return redirect()->route('backend.products.index')->with('success','Cập nhật sản phẩm thành công');     
+        }else {
+            $product = $request->except('_token', 'files', 'images');
+            Product::where('id', $id)->update($product,);
+            return redirect()->route('backend.products.index')->with('success','Cập nhật sản phẩm thành công');
+        }
     }
 
     /**
@@ -170,6 +197,12 @@ class ProductController extends Controller
     public function destroy($id)
     {
         Product::where('id', $id)->delete();
-        return redirect()->route('backend.products.index');
+        $images = Image::where('product_id', $id)->get();
+        foreach($images as $image){
+            Storage::disk($image->disk)->delete('/'.$image->path);
+            Image::where('product_id', $id)->delete();
+        }
+        Image::where('product_id', $id)->delete();
+            return redirect()->route('backend.products.index')->with('success','Xóa thành công');
     }
 }

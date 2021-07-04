@@ -40,7 +40,7 @@ class UserPolicy
      */
     public function create(User $user)
     {
-        return $user->id === User::ADMIN;
+        return $user->role === User::SUPPER_ADMIN;
     }
 
     /**

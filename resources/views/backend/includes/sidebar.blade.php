@@ -21,18 +21,16 @@
                             Dashboard
                         </p>
                     </a>
-
                 </li>
-
                 {{-- menu --}}
                 {{-- @if ($menus)
                     @foreach ($menus as $menu)
                         @include('backend.includes.category-children', ['category'=>$menu])
                     @endforeach
-                    
                 @endif --}}
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-shopping-basket"></i>
                         <p>
                             Quản lý sản phẩm
                             <i class="right fas fa-angle-left"></i>
@@ -40,13 +38,13 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{route('backend.products.create')}}" class="nav-link">
+                            <a href="{{route('backend.products.create')}}" class="nav-link {{request()->url() === route('backend.products.create') ? 'active' : ''}}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Tạo mới</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route('backend.products.index')}}" class="nav-link">
+                            <a href="{{route('backend.products.index')}}" class="nav-link {{request()->url() === route('backend.products.index') ? 'active' : ''}}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Danh sách</p>
                             </a>
@@ -56,7 +54,8 @@
                 
                 
                 <li class="nav-item has-treeview">
-                    <a href="#" class="nav-link">
+                    <a href="#" class="nav-link ">
+                        <i class="nav-icon fas fa-chart-pie"></i>
                         <p>
                             Quản lý danh mục
                             <i class="right fas fa-angle-left"></i>
@@ -64,13 +63,13 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{route('backend.category.create')}}" class="nav-link">
+                            <a href="{{route('backend.category.create')}}" class="nav-link {{request()->url() === route('backend.category.create') ? 'active' : ''}}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Tạo mới</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route('backend.category.index')}}" class="nav-link">
+                            <a href="{{route('backend.category.index')}}" class="nav-link {{request()->url() === route('backend.category.index') ? 'active' : ''}}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Danh sách</p>
                             </a>
@@ -80,20 +79,22 @@
                 @can('login-admin')
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-users"></i> 
                             <p>
                                 Quản lý người dùng
+                                
                                 <i class="right fas fa-angle-left"></i>
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="{{route('backend.user.create')}}" class="nav-link">
+                                <a href="{{route('backend.user.create')}}" class="nav-link {{request()->url() === route('backend.user.create') ? 'active' : ''}}">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Tạo mới</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{route('backend.user.index')}}" class="nav-link">
+                                <a href="{{route('backend.user.index')}}" class="nav-link {{request()->url() === route('backend.user.index') ? 'active' : ''}}">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Danh sách</p>
                                 </a>
@@ -104,6 +105,7 @@
                 
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-shopping-cart"></i>
                         <p>
                             Quản lý đơn hàng
                             <i class="right fas fa-angle-left"></i>

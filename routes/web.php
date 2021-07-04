@@ -21,12 +21,20 @@ Route::get('/', 'Frontend\HomeController@index')->name('frontend.home');
 
 Route::get('/show/{id}', 'Frontend\HomeController@show')->name('frontend.home.product-detail');
 
+Route::post('search/name', 'Frontend\HomeController@getSearchAjax')->name('search');
+
+Route::get('products/cart/list', 'Frontend\CartController@index')->name('frontend.cart.index');
+
+Route::get('products/cart/add/{id}', 'Frontend\CartController@add')->name('frontend.cart.add');
+
+Route::get('products/cart/delete/{id}', 'Frontend\CartController@remove')->name('frontend.cart.remove');
+
 
 Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login.form');
 
 Route::post('/login', 'Auth\LoginController@login')->name('login.store');
 
-Route::get('/logout', 'Auth\LogoutController@logout')->name('logout');
+Route::get('/logout', 'Auth\LogoutController@logout')->name('logout')->middleware('auth');
 
 Route::get('/register', 'Auth\RegisterController@showRegistrationForm')->name('register.form');
 
@@ -37,7 +45,7 @@ Route::post('/register', 'Auth\RegisterController@register')->name('register.pos
 Route::group([
     'namespace' => 'Backend',
     'prefix' => 'admin',
-    'middleware' => ['auth', 'check_admin'],
+    'middleware' => ['auth', 'check_admin', 'preventBackHistory'],
 ], function (){
     // DashBoard
 
@@ -72,6 +80,8 @@ Route::group([
         Route::post('/store', 'UserController@store')->name('backend.user.store');
         Route::get('/edit/{id}', 'UserController@edit')->name('backend.user.edit');
         Route::post('/update/{id}', 'UserController@update')->name('backend.user.update');
+        Route::get('/delete/{id}', 'UserController@destroy')->name('backend.user.delete');
+
 
 
 

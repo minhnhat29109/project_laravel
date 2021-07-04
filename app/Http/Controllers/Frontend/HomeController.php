@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Storage;
 
 class HomeController extends Controller
@@ -15,8 +17,35 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        // $request->session()->put('user_login', 'Nhat');
+        // session(['test', 'DM Nhat']);
+        // dd($request->session()->get('user_login'));
+
+        // $request->session()->put('user_id', 'Nhat');
+
+        // dd($request->session()->get('user_id'));
+
+        // $cart = [
+        //     '1'=>[
+        //         'id' =>1,
+        //         'name' => 'iphone',
+        //         'price' => '500000',
+        //     ]
+        //     ];
+        // // session(['cart' => $cart]);
+        //     if($request->session()->has('cart')){
+        //         $product = [
+        //             'id' =>1,
+        //             'name' => 'iphone',
+        //             'price' => '500000',
+        //         ];
+        //         $cart[2] = $product;
+        //     session(['cart'=> $cart]);
+        //     }
+        // dd($request->session()->get('cart'));
+
         // Storage::disk('local')->put('file.txt', 'Contents');
         // Storage::put('file1.txt', 'Nhat');
 
@@ -31,11 +60,22 @@ class HomeController extends Controller
         // }else {
         //     dd('file khong ton tai');
         // }
+        // Cookie::queue('user_name', 'DM Nhat', 1);
+        // dd($request->cookie('user_name'));
 
+        //CACHE
+
+        
+    
         $categories = Category::where('parent_id', 0)->get();
         $products = Product::orderBy('id', 'desc')->get();
-        return view('frontend.layouts.master')->with(compact('products'))->with(compact('categories'));
-        // return view('welcome');
+        return view('frontend.home')->with(compact('products'))->with(compact('categories'));
+    }
+
+    
+    public function getCategoryMenu(){
+        $categories = Category::all();
+        return view('frontend.includes.navbar', with($categories));
     }
 
     /**
@@ -69,6 +109,25 @@ class HomeController extends Controller
     {
         $product = Product::where('slug', $slug)->first();
         return view('frontend.home.product-detail', ['product' => $product]);
+    }
+
+    function getSearchAjax(Request $request)
+    {
+        if($request->get('query'))
+        {
+            $query = $request->get('query');
+            $data = Product::where('name', 'LIKE', "{$query}%")
+            ->get();
+            $output = '<ul class="dropdown-menu" style="display:block">';
+            foreach($data as $row)
+            {
+               $output .= '
+               <li><a href="'.route('frontend.home.product-detail',$row->slug).'">'.$row->name.'</a></li>
+               ';
+           }
+           $output .= '</ul>';
+           echo $output;
+       }
     }
 
     /**

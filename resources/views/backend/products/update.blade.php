@@ -25,7 +25,7 @@
 
 @section('content')
 <div class="container-fluid">
-    <form role="form" method="post" action="{{ route('backend.products.update', $product->id ) }}" style="height: auto">
+    <form role="form" method="post" action="{{ route('backend.products.update', $product->id ) }}" enctype="multipart/form-data">
         @csrf
         <div class="card-body">
           
@@ -39,7 +39,7 @@
             <div class="form-group">
                 <label>Danh mục sản phẩm</label>
                 <select name="category_id" class="form-control select2" style="width: 100%;">
-                    <option value="{{$product->category_id}}">{{$product->category->name}}</option>
+                    <option value="-1}"><-- Chọn danh mục --></option>
                     @foreach($categories as $category)
                         <option value="{{ $category->id }}">{{ $category->name }}</option>
                     @endforeach
@@ -74,20 +74,22 @@
                             <p class="text-danger">{{ $message }}</p>
                          @enderror
             </div>
-            {{-- <div class="form-group">
+            <div class="form-group">
                 <label for="exampleInputFile">Hình ảnh sản phẩm</label>
                 <div class="input-group">
                     <div class="custom-file">
-                        <input type="file" class="custom-file-input" value="{{old('image')}}" name="image" id="exampleInputFile">
-                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                        
+                        <input type="file" name="images[]" multiple> 
                     </div>
-                    
                 </div>
+                @if (count($product->images) > 0)
+                    @foreach ($product->images as $images)
+                        <img src="{{$images->image_url}}" style="width: 60px" alt="">
+                    @endforeach
+                @endif
                 @error('image')
                     <p class="text-danger">{{ $message }}</p>
                 @enderror
-            </div> --}}
+            </div>
             <div class="form-group">
                 <label>Trạng thái sản phẩm</label>
                 <select name="status" class="form-control select2" style="width: 100%;">

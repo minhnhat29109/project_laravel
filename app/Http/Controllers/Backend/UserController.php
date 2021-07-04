@@ -7,6 +7,8 @@ use App\Http\Requests\StoreUserRequest;
 use App\Models\User;
 use App\Models\UserInfo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -18,10 +20,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        $this->authorize('create', User::class);
+        $users = User::whereNotIn('role', [Auth::user()->role])
+        ->get();
         return view('backend.users.index', ['users' => $users]);
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -29,7 +32,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $this->authorize('create');
+        $this->authorize('create', User::class);
         return view('backend.users.create');
     }
 
@@ -39,8 +42,9 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
+        $this->authorize('create', User::class);
         $user = new User();
         $user->name = $request->get('name');
         $user->email = $request->get('email');
@@ -54,6 +58,8 @@ class UserController extends Controller
             $user_info->user_id = $user->id;
             $user_info->save();
         }
+        Cookie::queue('success', 'Thêm người dùng thành công', 1/60); 
+
         return redirect()->route('backend.user.index');
     }
 
@@ -65,7 +71,8 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $this->authorize('create', User::class);
+        
     }
 
     /**
@@ -76,6 +83,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
+        $this->authorize('create', User::class);
         $user = User::where('id', $id)->first();
         return view('backend.users.update', ['user' => $user]);
     }
@@ -89,6 +97,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {   
+        $this->authorize('create', User::class);
         $name = $request->get('name');
         $email = $request->get('email');
         $password = Hash::make($request->get('password'));
@@ -110,6 +119,8 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->authorize('create', User::class);
+        User::where('id', $id)->delete();
+        return redirect()->route('backend.user.index');
     }
 }
