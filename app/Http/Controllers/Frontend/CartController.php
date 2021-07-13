@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\User;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Symfony\Component\VarDumper\Cloner\Data;
 
 class CartController extends Controller
 {
@@ -17,11 +20,20 @@ class CartController extends Controller
     public function index()
     {
         $items = Cart::content();
-        return view('frontend.cart', ['items' => $items]);
+        if (Auth::check()) {
+            $info = User::find(Auth::user()->id)->userInfo; 
+        }else {
+            $info = '';
+        }
+        return view('frontend.cart', compact('items', 'info'));
+        
     }
 
-    public function add($id)
+    public function add(Request $request, $id)
     {
+        // dd(Cart::content());
+        $color = $request->get('color');
+        $size = $request->get('size');
         $product = Product::find($id);
         
         if (count($product->images) > 0) {
@@ -31,8 +43,10 @@ class CartController extends Controller
         }
         Cart::add($product->id, $product->name, 1, $product->sale_price, 0,[
             'image' => $image,
+            'size' => $size,
+            'color' => $color,
         ]);
-        return redirect()->route('frontend.cart.index');
+        return redirect()->back();
     }
     public function remove($cart_id)
     {
@@ -43,6 +57,20 @@ class CartController extends Controller
     {
         Cart::destroy();
         return redirect()->route('frontend.home');
+    }
+
+    public function increase($rowId)
+    {
+        $cart = Cart::get($rowId);
+        Cart::update($rowId, $cart->qty + 1);
+        return redirect()->back();
+    }
+
+    public function decrease($rowId)
+    {
+        $cart = Cart::get($rowId);
+        Cart::update($rowId, $cart->qty - 1);
+        return redirect()->back();
     }
     /**
      * Show the form for creating a new resource.
@@ -96,7 +124,7 @@ class CartController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        
     }
 
     /**

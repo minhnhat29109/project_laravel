@@ -57,7 +57,6 @@
                         
                         <ul class="custom-menu">
                             <li><a href="#"><i class="fa fa-user-o"></i>Thông tin tài khoản</a></li>
-                            <li><a href="#"><i class="fa fa-check"></i> Thanh toán</a></li>
                             <li><a href="{{route('logout')}}"><i class="fa fa-unlock-alt"></i> Đăng xuất</a></li>
                         </ul>
                     </li>
@@ -70,9 +69,14 @@
                                 <i class="fa fa-shopping-cart"></i>
                                 <span class="qty">{{Cart::count()}}</span>
                             </div>
-                            <strong class="text-uppercase">Giỏ hàng:</strong>
+                            <strong class="text-uppercase">Giỏ hàng: </strong>
                             <br>
-                            <span>35.20$</span>
+                            @if (Cart::count() > 0)
+                                <strong>{{Cart::total()}}₫</strong>
+                            @else
+                                <strong>0.0₫</strong>    
+                            @endif
+                            
                         </a>
                         <div class="custom-menu">
                             <div id="shopping-cart">
@@ -89,7 +93,7 @@
                                         </div>
                                         @endif
                                         <div class="product-body">
-                                            <h3 class="product-price">{{number_format($item->price)}} VNĐ
+                                            <h3 class="product-price">{{number_format($item->price)}}₫
                                                 <span class="qty"> x {{$item->qty}}</span>
                                             </h3>
                                             <h2 class="product-name"><a href="#">{{$item->name}} </a></h2>
@@ -97,7 +101,7 @@
                                         <a href="{{route('frontend.cart.remove', $item->rowId)}}"><button class="cancel-btn"><i class="fa fa-trash"></i></button></a>
                                     </div>
                                     @empty
-                                        <p class="text-center">Giỏ hàng trống</p>
+                                        <p class="text-center text-danger">Giỏ hàng trống</p>
                                     @endforelse
                                 </div>
                                 @if (Cart::count() > 0)

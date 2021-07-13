@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Brand;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -15,10 +18,46 @@ class ProductController extends Controller
      */
     public function index()
     {
+        
         $products = Product::orderBy('id', 'desc')->paginate(12);   
-        return view('frontend.view-all', ['products' => $products]);
+        $brands = Brand::all();
+        return view('frontend.view-all', compact('products', 'brands'));
     }
+    
+    public function filterProduct(Request $request)
+    {
+        $brands = Brand::all();
 
+        if ($request->get('price') != -1 && $request->get('brand') != -1) {
+            if ($request->get('price') == 1) {
+                $results = DB::table('brands')
+            ->join('products', 'brands.id', '=', 'products.brand_id')
+            ->whereBetween('products.sale_price', [0, 1000000])
+            ->where('brands.name', $request->brand)
+            ->get();
+            return view('frontend.filterProduct', compact('results', 'brands'));
+            }
+            if ($request->get('price') == 2) {
+                $results = DB::table('brands')
+            ->join('products', 'brands.id', '=', 'products.brand_id')
+            ->whereBetween('products.sale_price', [1000000, 2000000])
+            ->where('brands.name', $request->brand)
+            ->get();
+            return view('frontend.filterProduct', compact('results', 'brands'));
+            }
+            if ($request->get('price') == 3) {
+                $results = DB::table('products')
+            ->leftJoin('brands', 'products.brand_id', '=', 'brands.id')
+            ->whereBetween('products.sale_price', [2000000, 2000000000])
+            ->where('brands.name', $request->brand)
+            ->get();
+            dd($results);
+            return view('frontend.filterProduct', compact('results', 'brands'));
+            }
+        }else {
+        return redirect()->route('frontend.product.viewAll');
+        }
+    }
     /**
      * Show the form for creating a new resource.
      *

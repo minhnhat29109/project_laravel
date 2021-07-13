@@ -156,24 +156,32 @@
 					<!-- store top filter -->
 					<div class="store-filter clearfix">
 						<div class="pull-left">
-							<div class="row-filter">
-								<a href="#"><i class="fa fa-filter"></i></a>
-								{{-- <a href="#" class="active"><i class="fa fa-bars"></i></a> --}}
-							</div>
-							<div class="sort-filter">
-								<span class="text-uppercase">Lọc theo: </span>
-								<select class="input">
-										<option value="0">Position</option>
-										<option value="0">Price</option>
-										<option value="0">Rating</option>
-									</select>
-                                    <select class="input">
-										<option value="0">Position</option>
-										<option value="0">Price</option>
-										<option value="0">Rating</option>
-									</select>
-								<a href="#" class="main-btn icon-btn"><i class="fa fa-filter"></i></a>
-							</div>
+							
+							<form action="{{route('frontend.product.filter')}}" method="GET">
+								<div class="row-filter">
+									<a href="#"><i class="fa fa-filter"></i></a>
+									{{-- <a href="#" class="active"><i class="fa fa-bars"></i></a> --}}
+								</div>
+                                {{-- @csrf --}}
+                                <div class="sort-filter">
+                                    <span class="text-uppercase">Lọc theo giá:  </span>
+                                    <select class="input" name="price">
+											<option value="-1">Từ</option>
+                                            <option value="1">Dưới 1 triệu</option>
+                                            <option value="2">Từ 1 - 2 triệu</option>
+                                            <option value="3">Trên 2 triệu</option>
+                                        </select>
+                                        <select class="input" name="brand">
+											<option value="-1">Hãng</option>
+											@forelse ($brands as $brand)
+												<option value="{{$brand->name}}">{{$brand->name}}</option>
+											@empty
+												<option value=""></option>
+											@endforelse
+                                        </select>
+                                    <button class="main-btn icon-btn"><i class="fa fa-filter"></i></button>
+                                </div>
+                            </form>
 						</div>
 						<div class="pull-right">
 							<ul class="store-pages">
@@ -235,7 +243,7 @@
                                                 @endif
                                     </div>
                                     <div class="product-body">
-                                        <h3 class="product-price">{{ number_format($product->sale_price) }}VNĐ</h3>
+                                        <h3 class="product-price">{{ number_format($product->sale_price) }}₫</h3>
                                         <div class="product-rating">
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star"></i>
@@ -243,14 +251,15 @@
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star-o empty"></i>
                                         </div>
-                                        <h2 class="product-name"><a href="#">{{$product->name }}</a></h2>
-                                        <div class="product-btns">
-                                            <button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
-                                            <button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>
-                                            <a href="{{route('frontend.cart.add', $product->id)}}"><button class="primary-btn add-to-cart">
-                                                <i class="fa fa-shopping-cart"></i>
-                                                    Thêm vào giỏ hàng</button></a>
-                                        </div>
+                                        <h2 class="product-name"><a href="{{route('frontend.home.product-detail', $product->slug)}}">{{$product->name }}</a></h2>
+										<div class="btn" >
+											<a href="{{route('frontend.home.product-detail', $product->slug)}}">
+												<button class="primary-btn add-to-cart">
+													<i class="fa fa-shopping-cart"></i>
+														Mua hàng
+												</button>
+											</a>
+										</div>
                                     </div>
                                 </div>
                             </div>

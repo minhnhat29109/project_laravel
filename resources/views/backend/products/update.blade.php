@@ -39,9 +39,18 @@
             <div class="form-group">
                 <label>Danh mục sản phẩm</label>
                 <select name="category_id" class="form-control select2" style="width: 100%;">
-                    <option value="-1}"><-- Chọn danh mục --></option>
+                    <option value="{{$product->category_id}}"><-- Chọn danh mục --></option>
                     @foreach($categories as $category)
                         <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Thương hiệu</label>
+                <select name="brand_id" class="form-control select2" style="width: 100%;">
+                    <option value="{{$product->brand_id}}"><-- Chọn thương hiệu --></option>
+                    @foreach($brands as $brand)
+                        <option value="{{ $brand->id }}">{{ $brand->name }}</option>
                     @endforeach
                 </select>
             </div>

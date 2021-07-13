@@ -1,9 +1,4 @@
 @extends('frontend.layouts.master')
-
-@section('slider')
-  @include('frontend.includes.slider')  
-@endsection
-
 @section('content')
 <!-- BREADCRUMB -->
 <div id="breadcrumb">
@@ -22,8 +17,7 @@
     <div class="container">
         <!-- row -->
         <div class="row">
-            <form id="checkout-form" class="clearfix">
-                <div class="col-md-6">
+                <div class="col-md-8">
                     <div class="order-summary clearfix">
                         <div class="section-title">
                             <h3 class="title">Thông tin sản phẩm</h3>
@@ -57,19 +51,33 @@
                                     <td class="details">
                                         <a href="#">{{$item->name}}</a>
                                         <ul>
-                                            <li><span>Size: XL</span></li>
-                                            <li><span>Color: Camelot</span></li>
+                                            <li><span>Size:{{$item->options->size}}</span></li>
+                                            <li><span>Màu:{{$item->options->color}}</span></li>
                                         </ul>
                                     </td>
                                     <td class="price text-center">
-                                        <strong>{{number_format($item->price)}}</strong>
-                                        <br><del class="font-weak"><small>$40.00</small></del>
+                                        <strong>{{number_format($item->price)}}₫</strong>
                                     </td>
-                                    <td class="qty text-center">
-                                        <input class="input" type="number" value="{{$item->qty}}">
+                                    {{-- <td class="text-center">
+                                        <a href=""><button>-</button></a><input type="text"><a href=""><button>+</button></a>
+                                    </td> --}}
+                                    <td class="text-center">
+                                      
+                                            
+                                        <div class="" style="padding: auto">
+                                            <a href="{{route('frontend.cart.decrease', $item->rowId)}}">
+                                                <button class="btn"> - </button>
+                                                </a>
+                                                <input class="text-center input" id="demoInput" style="max-width: 50px;" disabled min="1" max="100" value="{{$item->qty}}">
+                                                
+                                                <a href="{{route('frontend.cart.increase', $item->rowId)}}">
+                                                    <button  class="btn">+</button>
+                                                </a>
+                                        </div>
+                                       
                                     </td>
                                     <td class="total text-center">
-                                        <strong class="primary-color">{{number_format($item->price * $item->qty)}}</strong>
+                                        <strong class="primary-color">{{number_format($item->price * $item->qty)}}₫</strong>
                                     </td>
                                     <td class="text-right"><a href="{{route('frontend.cart.remove',$item->rowId)}}">
                                         <i class="fa fa-close"></i>
@@ -83,49 +91,67 @@
                     </div>
                 </div>
 
-                <div class="col-md-6">
-                    <div class="billing-details">
-                        <div class="section-title">
-                            <h3 class="title">Thông tin người mua</h3>
-                        </div>
-                        <div class="form-group">
-                            <input class="input" type="text" name="first-name" placeholder="Tên người mua">
-                        </div>
-                        <div class="form-group">
-                            <input class="input" type="email" name="email" placeholder="Email">
-                        </div>
-                        <div class="form-group">
-                            <input class="input" type="text" name="Địa chỉ" placeholder="Địa chỉ">
-                        </div>
-                        <div class="form-group">
-                            <input class="input" type="tel" name="phone" placeholder="Điện thoại">
-                        </div>
-                        <table class="shopping-cart-table table">
-                            <tfoot>
-                                <tr>
-                                    <th class="empty" colspan="3"></th>
-                                    <th>Tổng tiền hàng</th>
-                                    <th colspan="2" class="sub-total">{{Cart::total()}}</th>
-                                </tr>
-                                <tr>
-                                    <th class="empty" colspan="3"></th>
-                                    <th>Phí giao hàng</th>
-                                    <td colspan="2">Miễn phí</td>
-                                </tr>
-                                <tr>
-                                    <th class="empty" colspan="3"></th>
-                                    <th>Tổng thanh toán</th>
-                                    <th colspan="2" class="total">{{Cart::total()}}</th>
-                                </tr>
-                            </tfoot>
-                        </table>
-                        <div class="pull-right">
-                            <button class="primary-btn">Đặt hàng</button>
+                <form action="{{route('frontend.order.store')}}" method="post">
+                    @csrf
+                    <div class="col-md-4">
+                        <div class="billing-details">
+                            <div class="section-title">
+                                <h3 class="title">Thông tin người mua</h3>
+                            </div>
+                            <div class="form-group">
+                                <input class="input" value="{{Auth::check() == true ? Auth::user()->name : ''}}{{old('name')}}" type="text" name="name" placeholder="Tên người mua">
+                                @error('name')
+                                    <p class="text-danger">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <input class="input" value="{{Auth::check() == true ? Auth::user()->email : ''}}{{old('mail')}}" type="text" name="mail" placeholder="Email">
+                                @error('mail')
+                                    <p class="text-danger">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <input class="input" value="{{$info != '' ? $info->address : ''}}{{old('address')}}" type="text" name="address" placeholder="Địa chỉ">
+                                @error('address')
+                                    <p class="text-danger">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <input class="input" value="{{$info != '' ? $info->phone : ''}}{{old('phone')}}" type="tel" name="phone" placeholder="Điện thoại">
+                                @error('phone')
+                                    <p class="text-danger">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <input class="input" type="text" name="note" placeholder="Ghi chú">
+                            </div>
+                            <table class="shopping-cart-table table">
+                                <tfoot>
+                                    <tr>
+                                        <th class="empty" colspan="3"></th>
+                                        <th>Tổng tiền hàng</th>
+                                        <th colspan="2" class="sub-total">{{Cart::total()}}₫</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="empty" colspan="3"></th>
+                                        <th>Phí giao hàng</th>
+                                        <td colspan="2">Miễn phí</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="empty" colspan="3"></th>
+                                        <th>Tổng thanh toán</th>
+                                        <th colspan="2" class="total">{{Cart::total()}}₫</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                            <div class="pull-right">
+                                <button class="btn primary-btn" {{Cart::count() <= 0 ? 'disabled' : ''}}>Đặt hàng</button>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </form>
 {{-- @dd($items) --}}
-            </form>
+            
         </div>
         <!-- /row -->
     </div>

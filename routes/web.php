@@ -21,15 +21,28 @@ Route::get('/', 'Frontend\HomeController@index')->name('frontend.home');
 
 Route::get('/show/{id}', 'Frontend\HomeController@show')->name('frontend.home.product-detail');
 
-Route::post('search/name', 'Frontend\HomeController@getSearchAjax')->name('search');
+Route::get('search/name', 'Frontend\HomeController@getSearchAjax')->name('search');
 
 Route::get('products/view-all', 'Frontend\ProductController@index')->name('frontend.product.viewAll');
+
+Route::get('products/filter-products', 'Frontend\ProductController@filterProduct')->name('frontend.product.filter');
+
 
 Route::get('products/cart/list', 'Frontend\CartController@index')->name('frontend.cart.index');
 
 Route::get('products/cart/add/{id}', 'Frontend\CartController@add')->name('frontend.cart.add');
 
 Route::get('products/cart/delete/{id}', 'Frontend\CartController@remove')->name('frontend.cart.remove');
+
+Route::get('products/cart/increase/{id}', 'Frontend\CartController@increase')->name('frontend.cart.increase');
+
+Route::get('products/cart/decrease/{id}', 'Frontend\CartController@decrease')->name('frontend.cart.decrease');
+
+
+Route::post('order/store', 'Frontend\OrderController@store')->name('frontend.order.store');
+
+
+
 
 
 Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login.form');
@@ -92,7 +105,22 @@ Route::group([
     //Orders
     Route::prefix('orders')->group(function(){
         Route::get('/show', 'OrderController@index')->name('backend.order.index');
-        Route::get('/create', 'OrderController@create')->name('backend.order.create');
+        Route::get('/edit/{id}', 'OrderController@edit')->name('backend.order.edit');
+        Route::get('/update-confirm/{id}', 'OrderController@updateStatusConfirm')->name('backend.order.update-confirm');
+        Route::get('/update-transport/{id}', 'OrderController@updateStatusTranSport')->name('backend.order.update-transport');
+        Route::get('/update-cancer/{id}', 'OrderController@updateStatusCancer')->name('backend.order.update-cancer');
+
+
+    });
+      //Brands
+    Route::prefix('brands')->group(function(){
+        Route::get('/', 'BrandController@index')->name('backend.brands.index');
+        Route::get('/create', 'BrandController@create')->name('backend.brands.create');
+        Route::get('/delete/{id}', 'BrandController@destroy')->name('backend.brands.delete');
+        Route::get('/edit/{slug}', 'BrandController@edit')->name('backend.brands.edit');
+        Route::post('/store', 'BrandController@store')->name('backend.brands.store');
+        Route::post('/update/{slug}', 'BrandController@update')->name('backend.brands.update');
+
     });
 
         

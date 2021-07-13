@@ -14,7 +14,9 @@ class Product extends Model
     const STATUS_INT = 0;
     const STATUS_BUY = 1; 
     const STATUS_STOP = -1;
-
+    const FILLTER_1 = [0 , 1000000];
+    const FILLTER_2 = [1000000, 2000000];
+    const FILLTER_3 = [];
     public static $status_color = [
         0 => 'bg-warning',
         1 => 'bg-success',
@@ -36,6 +38,9 @@ class Product extends Model
     public function category(){
         return $this->belongsTo(Category::class);
     }
+    public function brand(){
+        return $this->belongsTo(Brand::class);
+    }
     public function user(){
         return $this->belongsTo(User::class);
     }
@@ -46,10 +51,15 @@ class Product extends Model
     public function images(){
         return $this->hasMany(Image::class);
     }
+
+    public function wares(){
+        return $this->hasMany(Ware::class);
+    }
     public function getStatusTextAttribute(){
         return self::$status_text[$this->status];
     }
     public function getStatusColorAttribute(){
         return self::$status_color[$this->status];
     }
+    
 }

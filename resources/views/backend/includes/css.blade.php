@@ -26,8 +26,12 @@
     <link rel="stylesheet" href="/backend/plugins/daterangepicker/daterangepicker.css">
     <!-- summernote -->
     <link rel="stylesheet" type="text/css" href="/backend/DataTables/datatables.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/backend/repeatable/dist/css/jq.multiinput.min.css"/>
 
+    <link href="/backend/dist/css/jq.multiinput.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/backend/plugins/summernote/summernote-bs4.css">
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" rel="stylesheet">
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" rel="stylesheet">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <link rel="stylesheet" type="text/css" 
@@ -37,6 +41,12 @@
             filter: blur(1px);
             background-color: rgb(230, 230, 230);
             pointer-events: none;
-        } 
+        }
+        th{
+            text-align: center;
+        }
+        td{
+            text-align: center;
+        }
     </style>
 </head>

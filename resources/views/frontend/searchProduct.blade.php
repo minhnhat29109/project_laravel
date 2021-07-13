@@ -235,7 +235,7 @@
                                                 @endif
                                     </div>
                                     <div class="product-body">
-                                        <h3 class="product-price">{{ number_format($product->sale_price) }}VNĐ</h3>
+                                        <h3 class="product-price">{{ number_format($product->sale_price) }}₫</h3>
                                         <div class="product-rating">
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star"></i>
@@ -243,14 +243,15 @@
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star-o empty"></i>
                                         </div>
-                                        <h2 class="product-name"><a href="#">{{$product->name }}</a></h2>
-                                        <div class="product-btns">
-                                            <button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
-                                            <button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>
-                                            <a href="{{route('frontend.cart.add', $product->id)}}"><button class="primary-btn add-to-cart">
-                                                <i class="fa fa-shopping-cart"></i>
-                                                    Thêm vào giỏ hàng</button></a>
-                                        </div>
+                                        <h2 class="product-name"><a href="{{route('frontend.home.product-detail', $product->slug)}}">{{$product->name }}</a></h2>
+										<div class="btn" >
+											<a href="{{route('frontend.home.product-detail', $product->slug)}}">
+												<button class="primary-btn add-to-cart">
+													<i class="fa fa-shopping-cart"></i>
+														Mua hàng
+												</button>
+											</a>
+										</div>
                                     </div>
                                 </div>
                             </div>

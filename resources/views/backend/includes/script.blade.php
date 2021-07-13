@@ -27,7 +27,6 @@
 <script src="/backend/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
 <!-- AdminLTE App -->
 <script src="/backend/dist/js/adminlte.js"></script>
-
 <script type="text/javascript" src="/backend/DataTables/datatables.min.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="/backend/dist/js/pages/dashboard.js"></script>
@@ -35,6 +34,34 @@
 <!-- AdminLTE for demo purposes -->
 <script src="/backend/dist/js/demo.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+<script src="/backend/repeatable/src/js/jq.multiinput.js"></script>
+<script>
+  $(document).ready(function () {
+      $('#participants').multiInput({
+          json: true,
+          input: $('<div class="row inputElement">\n' +
+              '<div class="multiinput-title col-xs-12">Thông số <span class="number">1</span></div>\n' +
+              '<div class="form-group col-lg-4 col-sm-6 col-xs-12">\n' +
+              '<input class="form-control" name="color[]" placeholder="Màu sắc" type="text">\n' +
+              '</div>\n' +
+              '<div class="form-group col-lg-4 col-sm-6 col-xs-12">\n' +
+              '<input class="form-control" name="size[]" placeholder="Size" type="text">\n' +
+              '</div>\n' +
+              '<div class="form-group col-lg-4 col-sm-6 col-xs-12">\n' +
+              '<input class="form-control" name="amount[]" placeholder="Số lượng" type="text">\n' +
+              '</div>\n' +
+              '</div>\n'),
+          limit: 10,
+          onElementAdd: function (el, plugin) {
+              console.log(plugin.elementCount);
+          },
+          onElementRemove: function (el, plugin) {
+              console.log(plugin.elementCount);
+          }
+      });
+  });
+</script>
 <script>
   @if(Session::has('success'))
   		toastr.success("{{ session('success') }}");
@@ -75,22 +102,3 @@
   });
 </script>
 
-<script>
-  $('.delete-confirm').click(function(event) {
-  var form =  $(this).closest("form");
-  var name = $(this).data("name");
-  event.preventDefault();
-  swal({
-    title: `Bạn có muốn xóa ${name}?`,
-    text: "Nếu bạn xóa nó, bạn sẽ không thể khôi phục lại được",
-    icon: "error",
-    buttons: ["Không", "Đồng ý"],
-    dangerMode: true,
-  })
-  .then((willDelete) => {
-  if (willDelete) {
-    form.submit();
-  }
-  });
-  });
-</script>

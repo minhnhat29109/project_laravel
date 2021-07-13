@@ -29,6 +29,9 @@ class StoreProductRequest extends FormRequest
                 'sale_price' => 'required|numeric',
                 'content' => 'required',
                 'images' => 'required|max:10000000000',
+                'color' => 'required',
+                'size' => 'required',
+                'amount' => 'required'
 
         ];
 
@@ -47,6 +50,9 @@ class StoreProductRequest extends FormRequest
             'images.file' => 'Chọn file là ảnh!',
             'images.mimes' => 'Chọn file là ảnh!',
             'images.max' => 'Kích thước ảnh quá lớn!',
+            'color.require' => 'Thêm màu sản phẩm',
+            'size.require' => 'Thêm size',
+            'amount.require' => 'Nhập số lượng',
         ];
     }
     public function attributes()

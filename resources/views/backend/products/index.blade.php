@@ -38,6 +38,7 @@
                                     {{-- <th>ẢNH</th> --}}
                                     <th>GIÁ BÁN</th>
                                     <th>DANH MỤC</th>
+                                    <th>Thương hiệu</th>
                                     <th>NGƯỜI NHẬP</th>
                                     <th>THỜI GIAN</th>
                                     <th>TRẠNG THÁI</th>
@@ -56,12 +57,18 @@
                                         @else
                                             <td>Không có ảnh</td>
                                         @endif --}}
-                                        <td>{{number_format($product->sale_price) }} VNĐ</td>
+                                        <td>{{number_format($product->sale_price) }}₫</td>
                                         <td>
                                             @isset($product->category->name)
                                                 {{$product->category->name}}
                                             @endisset
                                         </td>
+                                        <td>
+                                            @isset($product->brand->name)
+                                                {{$product->brand->name}}
+                                            @endisset
+                                        </td>
+                                
                                         <td>{{ $product->user->name }}</td>
 
                                         <td>11-7-2014</td>
@@ -85,7 +92,7 @@
                                     </tr>
                                 @empty
                                     <p>Phông có sản phẩm</p>
-                                @endcan
+                                @endforelse
                             </tbody>
 
 

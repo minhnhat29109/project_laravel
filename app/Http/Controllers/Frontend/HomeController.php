@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Ware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Cookie;
@@ -108,7 +109,8 @@ class HomeController extends Controller
     public function show($slug)
     {
         $product = Product::where('slug', $slug)->first();
-        return view('frontend.home.product-detail', ['product' => $product]);
+        $wares = Ware::where('product_id', $product->id)->get();
+        return view('frontend.home.product-detail', compact('product', 'wares'));
     }
 
     function getSearchAjax(Request $request)
@@ -118,15 +120,20 @@ class HomeController extends Controller
             $query = $request->get('query');
             $data = Product::where('name', 'LIKE', "{$query}%")
             ->get();
-            $output = '<ul class="dropdown-menu" style="display:block">';
-            foreach($data as $row)
-            {
-               $output .= '
-               <li><a href="'.route('frontend.home.product-detail',$row->slug).'">'.$row->name.'</a></li>
-               ';
-           }
-           $output .= '</ul>';
-           echo $output;
+            if (count($data) > 0) {
+                $output = '<ul class="dropdown-menu" style="display:block; padding:5px;">';
+                foreach($data as $row)
+                {
+                $output .= '<div class"">
+                    <a href="'.route('frontend.home.product-detail',$row->slug).'"><li>'.$row->name.'</li></a>
+                ';
+                }
+                $output .= '</ul></div>';
+                echo $output;
+            }else {
+                $output = '<ul class="dropdown-menu" style="display:block"><li>Không có sản phẩm phù hợp</li></ul>';
+                echo $output;
+            }   
        }
     }
 

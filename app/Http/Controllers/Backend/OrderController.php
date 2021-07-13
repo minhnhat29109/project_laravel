@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -15,7 +16,8 @@ class OrderController extends Controller
      */
     public function index()
     {
-        return view('backend.orders.index');
+        $orders = Order::all();
+        return view('backend.orders.index', compact('orders'));
     }
 
     /**
@@ -25,14 +27,10 @@ class OrderController extends Controller
      */
     public function create()
     {
-        return view('backend.orders.create');
-        
+    #
     }
 
-    public function showProducts($id){
-        $products = Order::find($id)->products;
-        return view('backend.products.showProductsByOrderID', ['products' => $products]);
-    }
+   
 
     /**
      * Store a newly created resource in storage.
@@ -64,7 +62,32 @@ class OrderController extends Controller
      */
     public function edit($id)
     {
-        //
+        $order = Order::find($id);
+        $products = $order->orderproducts;
+        foreach ($products as $product) {
+            $id = $product->product_id;
+            $name[] = Product::find($id)->name;
+        }
+        return view('backend.orders.order_detail', compact('order', 'name'));
+    }
+
+    public function updateStatusConfirm($id)
+    {
+        $status = Order::find($id)->status;
+        Order::where('id', $id)->update(['status' => Order::CONFIRM]); 
+        return redirect()->route('backend.order.index');
+    }
+    public function updateStatusTranSport($id)
+    {
+        $status = Order::find($id)->status;
+        Order::where('id', $id)->update(['status' => Order::TRANSPORT]); 
+        return redirect()->route('backend.order.index');
+    }
+    public function updateStatusCancer($id)
+    {
+        $status = Order::find($id)->status;
+        Order::where('id', $id)->update(['status' => Order::CANCER]); 
+        return redirect()->route('backend.order.index');
     }
 
     /**

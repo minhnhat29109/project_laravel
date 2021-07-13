@@ -43,10 +43,19 @@
             </div>
             <div class="form-group">
                 <label>Danh mục sản phẩm</label>
-                <select name="category_id" value="{{old('category_id')}}" class="form-control select2" style="width: 100%;">
-                    <option value=""><-- Chọn danh mục --></option>
+                <select name="category" class="form-control select2" style="width: 100%;">
+                    <option value="0"><-- Chọn danh mục --></option>
                     @foreach($categories as $category)
                         <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Thương hiệu</label>
+                <select name="brand" class="form-control select2" style="width: 100%;">
+                    <option value="0"><-- Chọn thương hiệu --></option>
+                    @foreach($brands as $brand)
+                        <option value="{{ $brand->id }}">{{ $brand->name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -79,7 +88,16 @@
                             <p class="text-danger">{{ $message }}</p>
                          @enderror
             </div>
-
+            <div class="form-group">
+                <label for="exampleInputEmail1">Thông số sản phẩm</label>
+                        <textarea class="form-control" id="participants" name="participants">
+                            [{"tn_firstname":"","tn_lastname":""}]
+                        </textarea>
+                        @error('')
+                            <p class="text-danger">{{ $message }}</p>
+                         @enderror
+            </div>
+            
             <div class="form-group">
                 <label for="exampleInputFile">Hình ảnh sản phẩm</label>
                 <div class="input-group">
