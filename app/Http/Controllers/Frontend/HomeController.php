@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Ware;
@@ -109,8 +110,12 @@ class HomeController extends Controller
     public function show($slug)
     {
         $product = Product::where('slug', $slug)->first();
+        // dd($product);
+        $reviews = $product->reviews;
+        // dd($reviews);
+        $sames = Product::where('category_id', $product->category_id)->paginate(4);
         $wares = Ware::where('product_id', $product->id)->get();
-        return view('frontend.home.product-detail', compact('product', 'wares'));
+        return view('frontend.home.product-detail', compact('product', 'wares', 'sames', 'reviews'));
     }
 
     function getSearchAjax(Request $request)
@@ -118,14 +123,14 @@ class HomeController extends Controller
         if($request->get('query'))
         {
             $query = $request->get('query');
-            $data = Product::where('name', 'LIKE', "{$query}%")
-            ->get();
+            $data = Product::where('name', 'LIKE', "%{$query}%")->paginate(5);
+
             if (count($data) > 0) {
                 $output = '<ul class="dropdown-menu" style="display:block; padding:5px;">';
                 foreach($data as $row)
                 {
                 $output .= '<div class"">
-                    <a href="'.route('frontend.home.product-detail',$row->slug).'"><li>'.$row->name.'</li></a>
+                    <a href="'.route('search-products',$row->name).'"><li>'.$row->name.'</li></a>
                 ';
                 }
                 $output .= '</ul></div>';
@@ -135,6 +140,12 @@ class HomeController extends Controller
                 echo $output;
             }   
        }
+    }
+    public function searchProducts($name)
+    {
+        $brands = Brand::all();
+        $products = Product::where('name', 'like', '%'.$name.'%' )->orWhere('category_id', $name)->paginate(16);
+        return view('frontend.searchProduct', compact('products', 'brands'));
     }
 
     /**

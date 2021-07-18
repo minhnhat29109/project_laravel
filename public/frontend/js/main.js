@@ -47,7 +47,7 @@
   $('#product-slick-1').slick({
     slidesToShow: 3,
     slidesToScroll: 2,
-    autoplay: true,
+    autoplay: false,
     infinite: true,
     speed: 300,
     dots: true,
@@ -154,7 +154,7 @@ $('.slick-product').slick({
   slidesToShow: 4,
   slidesToScroll: 1,
   pauseOnFocus:true,
-  autoplay: true,
+  autoplay: false,
   dots:true,
   speed: 300,
   responsive: [

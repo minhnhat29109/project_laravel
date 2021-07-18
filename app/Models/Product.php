@@ -47,7 +47,10 @@ class Product extends Model
     public function orders(){
         return $this->belongsToMany(Order::class);
     }
-    
+    public function reviews(){
+        return $this->hasMany(Review::class);
+    }
+
     public function images(){
         return $this->hasMany(Image::class);
     }

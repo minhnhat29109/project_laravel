@@ -83,21 +83,22 @@
                             <p class="text-danger">{{ $message }}</p>
                          @enderror
             </div>
+            
             <div class="form-group">
                 <label for="exampleInputFile">Hình ảnh sản phẩm</label>
                 <div class="input-group">
-                    <div class="custom-file">
-                        <input type="file" name="images[]" multiple> 
-                    </div>
+                    <input type="file" class="form-control-file" name="images[]" multiple>
                 </div>
-                @if (count($product->images) > 0)
-                    @foreach ($product->images as $images)
-                        <img src="{{$images->image_url}}" style="width: 60px" alt="">
-                    @endforeach
-                @endif
-                @error('image')
+                @error('images')
                     <p class="text-danger">{{ $message }}</p>
                 @enderror
+            </div>
+            <div class="form-group">
+                @if (count($product->images) > 0)
+                @foreach ($product->images as $images)
+                    <img src="{{$images->image_url}}" style="width: 60px" alt="">
+                @endforeach
+            @endif
             </div>
             <div class="form-group">
                 <label>Trạng thái sản phẩm</label>

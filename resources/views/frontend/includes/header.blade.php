@@ -43,25 +43,22 @@
                     <li class="header-account dropdown default-dropdown">
                         @if(Auth::check())
                         <div class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="true">
-                            
                             <strong class="text-uppercase">
-                                
                                     {{ Auth::user()->name }}    
-                                
                                 <i class="fa fa-caret-down"></i></strong>
                         </div>
                         @endif
                         @if(!Auth::check()) 
                         <a href="{{ route('login.form')}}" class="">Đăng nhập</a>
                         @endif
-                        
                         <ul class="custom-menu">
-                            <li><a href="#"><i class="fa fa-user-o"></i>Thông tin tài khoản</a></li>
-                            <li><a href="{{route('logout')}}"><i class="fa fa-unlock-alt"></i> Đăng xuất</a></li>
+                            @if(Auth::check()) 
+                                <li><a href="{{route('frontend.order.list', Auth::user()->id)}}"><i class="fa fa-shopping-cart"></i>Đơn hàng</a></li>
+                            @endif
+                            <li><a href="{{route('logout')}}"><i class="fa fa-sign-out"></i></i> Đăng xuất</a></li>
                         </ul>
                     </li>
                     <!-- /Account -->
-
                     <!-- Cart -->
                     <li class="header-cart dropdown default-dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
@@ -72,11 +69,10 @@
                             <strong class="text-uppercase">Giỏ hàng: </strong>
                             <br>
                             @if (Cart::count() > 0)
-                                <strong>{{Cart::total()}}₫</strong>
+                                <strong>{{number_format(Cart::total())}}₫</strong>
                             @else
                                 <strong>0.0₫</strong>    
                             @endif
-                            
                         </a>
                         <div class="custom-menu">
                             <div id="shopping-cart">

@@ -46,7 +46,7 @@ class CartController extends Controller
             'size' => $size,
             'color' => $color,
         ]);
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Dã thêm vào giỏ hàng');
     }
     public function remove($cart_id)
     {

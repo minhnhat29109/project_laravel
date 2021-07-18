@@ -167,14 +167,14 @@
                                     <span class="text-uppercase">Lọc theo giá:  </span>
                                     <select class="input" name="price">
 											<option value="-1">Từ</option>
-                                            <option value="1">Dưới 1 triệu</option>
-                                            <option value="2">Từ 1 - 2 triệu</option>
-                                            <option value="3">Trên 2 triệu</option>
+                                            <option value="0-1000000">Dưới 1 triệu</option>
+                                            <option value="1000000-2000000">Từ 1 - 2 triệu</option>
+                                            <option value="2000000-1000000000">Trên 2 triệu</option>
                                         </select>
                                         <select class="input" name="brand">
 											<option value="-1">Hãng</option>
 											@forelse ($brands as $brand)
-												<option value="{{$brand->name}}">{{$brand->name}}</option>
+												<option value="{{$brand->id}}">{{$brand->name}}</option>
 											@empty
 												<option value=""></option>
 											@endforelse
@@ -245,12 +245,14 @@
                                     <div class="product-body">
                                         <h3 class="product-price">{{ number_format($product->sale_price) }}₫</h3>
                                         <div class="product-rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-o empty"></i>
-                                        </div>
+											@if (count($product->reviews) > 0)
+												{{$product->reviews->sum('rating') / count($product->reviews)}}
+												<i class="fa fa-star"></i>
+											@else
+											<p>Chưa có đánh giá</p>
+											@endif
+											
+										</div>
                                         <h2 class="product-name"><a href="{{route('frontend.home.product-detail', $product->slug)}}">{{$product->name }}</a></h2>
 										<div class="btn" >
 											<a href="{{route('frontend.home.product-detail', $product->slug)}}">

@@ -5,11 +5,15 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreOrderRequest;
 use App\Models\Order;
+use App\Models\Product;
+use App\Models\Review;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use phpDocumentor\Reflection\Types\Null_;
+use Svg\Tag\Rect;
 
 class OrderController extends Controller
 {
@@ -43,19 +47,10 @@ class OrderController extends Controller
     {
         $items = Cart::content();
         $order = new Order();
-
+        // dd((int)Cart::total());
         if (Auth::check()) {
             $order->user_id = Auth::user()->id;
-            $order->total = 10000000;   
-            $order->note = $request->get('note');
-            $order->customer_name = $request->get('name');
-            $order->phone = $request->get('phone');
-            $order->address = $request->get('address');
-            $order->status = Order::WAIT;
-            $order->email = $request->get('mail');
-            $order->save();
-        }else {
-            $order->total = 10000000;
+            $order->total = (int)Cart::total(); 
             $order->note = $request->get('note');
             $order->customer_name = $request->get('name');
             $order->phone = $request->get('phone');
@@ -97,9 +92,44 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        //
+        $order = Order::find($id);
+        $products = $order->orderproducts;
+        foreach ($products as $product) {
+            $id = $product->product_id;
+            $name[] = Product::find($id)->name;
+        }
+        return view('frontend.order_detail', compact('order', 'name'));
+    }
+    public function list($id)
+    {
+        $orders = Order::where('user_id', $id)->orderBy('created_at', 'desc')->get();
+        return view('frontend.orders', compact('orders'));
+    }
+    public function cancer($id){
+        Order::where('id', $id)->update(['status' => Order::CANCER]); 
+        return redirect()->back()->with('success', 'Hủy đơn hàng thành công');
+    }
+    public function reviewProduct(Request $request, $id){
+        // try {
+            $review = new Review();
+            $order = Order::find($id);
+            Order::where('id', $id)->update(['review_status' => Order::REVIEW_STATUS]);
+            $product_id = $order->orderproducts;
+            foreach ($product_id as $id){
+                $review->user_id = Auth::user()->id;
+                $review->product_id = $id->id;
+                $review->content = $request->get('content');
+                $request->rating = $request->get('star');
+                $review->save();
+                return redirect()->back()->with('success', 'Đánh giá thành công');
+            }
+
+        // } catch (\Throwable $th) {
+        //     abort(404);
+        // }
     }
 
+    
     /**
      * Show the form for editing the specified resource.
      *

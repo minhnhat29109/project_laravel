@@ -19,7 +19,7 @@ class ProductController extends Controller
     public function index()
     {
         
-        $products = Product::orderBy('id', 'desc')->paginate(12);   
+        $products = Product::orderBy('updated_at', 'desc')->paginate(12);   
         $brands = Brand::all();
         return view('frontend.view-all', compact('products', 'brands'));
     }
@@ -28,32 +28,15 @@ class ProductController extends Controller
     {
         $brands = Brand::all();
 
-        if ($request->get('price') != -1 && $request->get('brand') != -1) {
-            if ($request->get('price') == 1) {
-                $results = DB::table('brands')
-            ->join('products', 'brands.id', '=', 'products.brand_id')
-            ->whereBetween('products.sale_price', [0, 1000000])
-            ->where('brands.name', $request->brand)
+        if ($request->get('price') != -1 || $request->get('brand') != -1) {
+            $price = $request->get('price');
+            $pieces = explode("-", $price);
+            $min = $pieces[0];
+            $max = $pieces[1];
+            $results = Product::whereBetween('products.sale_price', [$min, $max])
+            ->orWhere('brand_id', $request->get('brand'))
             ->get();
             return view('frontend.filterProduct', compact('results', 'brands'));
-            }
-            if ($request->get('price') == 2) {
-                $results = DB::table('brands')
-            ->join('products', 'brands.id', '=', 'products.brand_id')
-            ->whereBetween('products.sale_price', [1000000, 2000000])
-            ->where('brands.name', $request->brand)
-            ->get();
-            return view('frontend.filterProduct', compact('results', 'brands'));
-            }
-            if ($request->get('price') == 3) {
-                $results = DB::table('products')
-            ->leftJoin('brands', 'products.brand_id', '=', 'brands.id')
-            ->whereBetween('products.sale_price', [2000000, 2000000000])
-            ->where('brands.name', $request->brand)
-            ->get();
-            dd($results);
-            return view('frontend.filterProduct', compact('results', 'brands'));
-            }
         }else {
         return redirect()->route('frontend.product.viewAll');
         }

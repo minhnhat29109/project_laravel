@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LoginRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,7 +16,7 @@ class LoginController extends Controller
     {
         return view('backend.auth.login');
     }
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
         $data = $request->validate([
             'email' => ['required', 'email'],
@@ -31,12 +32,13 @@ class LoginController extends Controller
                 }else {
                     return redirect()->route('frontend.home');
                 }
+            }else{
+                return back()->withErrors([
+                    'error' => 'Sai tài khoản hoặc mật khẩu'
+                ]);
             }
             
-                return back()->withErrors([
-                    'email' => 'Email không đúng'
-
-                ]);
+                
             
     }
 }

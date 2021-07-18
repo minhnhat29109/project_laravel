@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>AdminLTE 3 | Dashboard</title>
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Font Awesome -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sign Up Form by Colorlib</title>
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="/form-login/fonts/material-icon/css/material-design-iconic-font.min.css">
     <link rel="stylesheet" href="/backend/plugins/fontawesome-free/css/all.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
@@ -26,116 +27,86 @@
     <link rel="stylesheet" href="/backend/plugins/summernote/summernote-bs4.css">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <!-- Main css -->
+    <link rel="stylesheet" href="/form-login/css/style.css">
+    <link rel="stylesheet" type="text/css" 
+    href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <style>
+        i{
+            margin-left: 5px;
+        }
+    </style>
 </head>
-<body class="hold-transition login-page">
+<body >
 
+    <div class="main">
+        <!-- Sing in  Form -->
+        <section class="sign-in">
+            <div class="container">
+                <div class="signin-content">
+                    <div class="signin-image">
+                        <figure><img src="/form-login/images/signin-image.jpg" alt="sing up image"></figure>
+                        <a href="{{route('register.form')}}" class="signup-image-link">Tạo tài khoản mới?</a>
+                    </div>
 
-
-<div class="login-box">
-    <div class="login-logo">
-        <a href="../../index2.html"><b>Admin</b>LTE</a>
-    </div>
-    <!-- /.login-logo -->
-    <div class="card">
-        <div class="card-body login-card-body">
-            @if ($errors->any())
-                @foreach ($errors->all() as $error)
-                    <p style="color: red">{{$error}}</p>
-                @endforeach
-                
-            @endif
-            <p class="login-box-msg">Sign in to start your session</p>
-
-            <form action="{{ route('login.store')}}" method="post">
-                @csrf
-                <div class="input-group mb-3">
-                    <input type="email" name="email" class="form-control" placeholder="Email">
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-envelope"></span>
-                        </div>
+                    <div class="signin-form">
+                        <h2 class="form-title" style="font-family: Arial;">Đăng nhập</h2>
+                        @error('error')
+                                    <p class="text-danger text-sm">{{$message}}</p>
+                                @enderror
+                        <form form action="{{ route('login.store')}}" method="post" class="register-form" id="login-form">
+                            @csrf
+                            <div class="form-group">
+                                <label for="your_name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                <input type="email" name="email" id="your_name" placeholder="Email"/>
+                                @error('email')
+                                    <p class="text-danger text-sm">{{$message}}</p>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
+                                <input type="password" name="password" id="your_pass" placeholder="Mật khẩu"/>
+                                @error('password')
+                                    <p class="text-danger text-sm">{{$message}}</p>
+                                @enderror
+                            </div>
+                            {{-- <div class="form-group">
+                                <input type="checkbox" name="remember-me" id="remember-me" class="agree-term" />
+                                <label for="remember-me" class="label-agree-term"><span><span></span></span>Remember me</label>
+                            </div> --}}
+                            <div class="form-group form-button">
+                                <input type="submit" name="signin" id="signin" class="form-submit" value="Đăng nhập"/>
+                            </div>
+                        </form>
+                        <!-- <div class="social-login">
+                            <span class="social-label">Or login with</span>
+                            <ul class="socials">
+                                <li><a href="#"><i class="display-flex-center zmdi zmdi-facebook"></i></a></li>
+                                <li><a href="#"><i class="display-flex-center zmdi zmdi-twitter"></i></a></li>
+                                <li><a href="#"><i class="display-flex-center zmdi zmdi-google"></i></a></li>
+                            </ul>
+                        </div> -->
                     </div>
                 </div>
-                <div class="input-group mb-3">
-                    <input type="password" name="password" class="form-control" placeholder="Password">
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-lock"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-8">
-                        <div class="icheck-primary">
-                            <input type="checkbox" id="remember">
-                            <label for="remember">
-                                Remember Me
-                            </label>
-                        </div>
-                    </div>
-                    <!-- /.col -->
-                    <div class="col-4">
-                        <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
-                    </div>
-                    <!-- /.col -->
-                </div>
-            </form>
-
-            <div class="social-auth-links text-center mb-3">
-                <p>- OR -</p>
-                <a href="#" class="btn btn-block btn-primary">
-                    <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
-                </a>
-                <a href="#" class="btn btn-block btn-danger">
-                    <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
-                </a>
             </div>
-            <!-- /.social-auth-links -->
-
-            <p class="mb-1">
-                <a href="#">I forgot my password</a>
-            </p>
-            <p class="mb-0">
-                <a href="{{route('register.form')}}" class="text-center">Register a new membership</a>
-            </p>
-        </div>
-        <!-- /.login-card-body -->
+        </section>
     </div>
-</div>
 
-
-<script src="/backend/plugins/jquery/jquery.min.js"></script>
-<!-- jQuery UI 1.11.4 -->
-<script src="/backend/plugins/jquery-ui/jquery-ui.min.js"></script>
-<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-<script>
-    $.widget.bridge('uibutton', $.ui.button)
-</script>
-<!-- Bootstrap 4 -->
-<script src="/backend/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- ChartJS -->
-<script src="/backend/plugins/chart.js/Chart.min.js"></script>
-<!-- Sparkline -->
-<script src="/backend/plugins/sparklines/sparkline.js"></script>
-<!-- JQVMap -->
-<script src="/backend/plugins/jqvmap/jquery.vmap.min.js"></script>
-<script src="/backend/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
-<!-- jQuery Knob Chart -->
-<script src="/backend/plugins/jquery-knob/jquery.knob.min.js"></script>
-<!-- daterangepicker -->
-<script src="/backend/plugins/moment/moment.min.js"></script>
-<script src="/backend/plugins/daterangepicker/daterangepicker.js"></script>
-<!-- Tempusdominus Bootstrap 4 -->
-<script src="/backend/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
-<!-- Summernote -->
-<script src="/backend/plugins/summernote/summernote-bs4.min.js"></script>
-<!-- overlayScrollbars -->
-<script src="/backend/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
-<!-- AdminLTE App -->
-<script src="/backend/dist/js/adminlte.js"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="/backend/dist/js/pages/dashboard.js"></script>
+    <!-- JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="/backend/dist/js/demo.js"></script>
-</body>
+    <script src="/backend/dist/js/demo.js"></script>
+    <script src="/form-login/vendor/jquery/jquery.min.js"></script>
+    <script src="/form-login/js/main.js"></script>
+    <script>
+        @if(Session::has('success'))
+  		toastr.success("{{ session('success') }}");
+        @endif
+
+        @if(Session::has('error'))
+                toastr.error("{{ session('error') }}");
+        @endif
+        </script>
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
 </html>

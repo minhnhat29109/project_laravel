@@ -11,6 +11,7 @@ use App\Models\UserInfo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -61,6 +62,10 @@ class DashboardController extends Controller
         $users = User::all();
         $products = Product::all();
         $orders = Order::all();
-        return view('backend.dashboard', ['users' => $users, 'products' => $products, 'orders' => $orders]);
+        $total = DB::table('orders')
+        ->select(DB::raw('sum(total) as total'),DB::raw("DATE_FORMAT(updated_at, '%d-%m-%Y') new_date"), DB::raw('date(updated_at) as date'))
+        ->groupBy('date')->orderBy('date', 'desc')
+        ->first();
+        return view('backend.dashboard', ['users' => $users, 'products' => $products, 'orders' => $orders, 'total' => $total]);
     }
 }

@@ -33,5 +33,58 @@
 		  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 		<![endif]-->
+		<style>
+			th{
+				text-align: center;
+			}
+			td{
+				text-align: center;
+			}
+			div.stars {
+				width: 270px;
+				display: inline-block
+			}
+
+			.mt-200 {
+				margin-top: 200px
+			}
+
+			input.star {
+				display: none
+			}
+
+			label.star {
+				float: right;
+				padding: 10px;
+				font-size: 36px;
+				color: #4A148C;
+				transition: all .2s
+			}
+
+			input.star:checked~label.star:before {
+				content: '\f005';
+				color: #FD4;
+				transition: all .25s
+			}
+
+			input.star-5:checked~label.star:before {
+				color: #FE7;
+				text-shadow: 0 0 20px #952
+			}
+
+			input.star-1:checked~label.star:before {
+				color: #F62
+			}
+
+			label.star:hover {
+				transform: rotate(-15deg) scale(1.3)
+			}
+
+			label.star:before {
+				content: '\f006';
+				font-family: FontAwesome
+			}
+		</style>
+
 
 </head>

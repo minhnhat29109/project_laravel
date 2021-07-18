@@ -34,8 +34,19 @@
 <!-- AdminLTE for demo purposes -->
 <script src="/backend/dist/js/demo.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://code.highcharts.com/modules/drilldown.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.ckeditor.com/4.16.1/standard/ckeditor.js"></script>
 
 <script src="/backend/repeatable/src/js/jq.multiinput.js"></script>
+<script>
+  CKEDITOR.replace( 'content' );
+</script>
 <script>
   $(document).ready(function () {
       $('#participants').multiInput({
@@ -78,7 +89,7 @@
   } );
 
   $('.data-table').DataTable({
-  order: [[0, 'desc']],
+ 
     language: {
         processing: "Message khi đang tải dữ liệu",
         search: "Tìm kiếm",
@@ -102,3 +113,85 @@
   });
 </script>
 
+<script>
+  $(document).ready(function() {
+      var dataChart = [];
+      $.ajaxSetup({
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+      });
+
+      $.ajax({
+          url: "{{route('backend.order.chart')}}",
+          type: 'get',
+          data: {}
+      }).done(function(response) {
+      var values = []; 
+        for (var i = 0; i < response.data.length; i++) {
+          values.push({
+            name: response.data[i].new_date,
+            y: parseFloat(response.data[i].total)
+          },);
+        }
+        Highcharts.chart('container', {
+          chart: {
+            type: 'column'
+          },
+          title: {
+            text: 'Doanh thu theo ngày'
+          },
+          // subtitle: {
+          // 	text: 'Click the columns to view versions. Source: <a href="http://statcounter.com" target="_blank">statcounter.com</a>'
+          // },
+          accessibility: {
+            announceNewData: {
+              enabled: true
+            }
+          },
+          xAxis: {
+            type: 'category'
+          },
+          yAxis: {
+            title: {
+              text: 'VNĐ'
+            }
+
+          },
+          legend: {
+            enabled: false
+          },
+          plotOptions: {
+            series: {
+              borderWidth: 0,
+              dataLabels: {
+                enabled: true,
+                format: '{point.y}₫'
+              }
+            }
+          },
+
+          tooltip: {
+            headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}₫<br/>'
+          },
+
+          series: [
+          {
+            name: "Tổng thu:",
+            colorByPoint: true,
+            data: values
+
+          }
+          ],
+
+        });
+      
+          
+      });
+      
+  });
+  // Create the chart
+
+
+</script>

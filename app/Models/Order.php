@@ -15,12 +15,13 @@ class Order extends Model
     const CONFIRM = 1;
     const TRANSPORT = 2;
     const SUCCESS = 3;
+    const REVIEW_STATUS = 1;
     public static $status_order = [
-        -1 => 'Đã hủy',
+        -1 => 'Đơn đã hủy',
         0 => 'Chờ xác nhận',
         1 => 'Đã xác nhận',
         2 => 'Đang vận chuyển',
-        3 => 'Đã nhận hàng', 
+        3 => 'Đã nhận hàng',
     ];
     public static $status_color = [
         -1 => 'bg-danger',

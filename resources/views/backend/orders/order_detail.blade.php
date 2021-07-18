@@ -26,7 +26,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <p>Tên khách háng: {{$order->customer_name}}</p>
+                    <p>Tên khách hàng: {{$order->customer_name}}</p>
                     <p>Email: {{$order->email}}</p>
                     <p>Địa chỉ: {{$order->address}}</p>
                     <p>Số điện thoại: {{$order->phone}}</p>
@@ -70,7 +70,8 @@
 
                         </tbody>
                     </table>
-                    <a href="{{route('backend.order.index')}}" class="btn bg-secondary">Quay lại</a>
+                    <a href="{{route('backend.order.index')}}" class="btn bg-secondary">Quay lại</a><span> </span>
+                    <a href="{{route('backend.order.printer', $order->id)}}" class="btn btn-success">In hóa đơn</a>
                     <div class="mt-3 float-right mr-5">
                         {{-- {!! $products->links() !!} --}}
                     </div>

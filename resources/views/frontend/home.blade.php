@@ -9,6 +9,7 @@
 
 @section('content')
 @foreach ($categories as $category)
+    @if ($category->is_show == 1)
         <div class="container ">
             <div class="row">
                 <div class="col-md-12">
@@ -19,7 +20,7 @@
             </div>
             <div class="row slick-product">
                 @foreach ($products as $product)
-                    @if ($category->id == $product->category_id)
+                    @if ($category->id == $product->category_id && $product->status == 1)
                         <div class="col-md-3 col-sm-6 col-xs-6">
                             <div class="product product-single">
                                 <div class="product-thumb">
@@ -37,12 +38,15 @@
                                 </div>
                                 <div class="product-body">
                                     <h3 class="product-price">{{ number_format($product->sale_price) }}₫</h3>
+
                                     <div class="product-rating">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star-o empty"></i>
+                                        @if (count($product->reviews) > 0)
+                                            {{$product->reviews->sum('rating') / count($product->reviews)}}
+                                            <i class="fa fa-star"></i>
+                                        @else
+                                        <p>Chưa có đánh giá</p>
+                                        @endif
+                                        
                                     </div>
                                     <h2 class="product-name"><a href="{{route('frontend.home.product-detail', $product->slug)}}">{{$product->name }}</a></h2>
                                     <div class="btn" >
@@ -60,5 +64,6 @@
                 @endforeach
             </div>
         </div>
-    @endforeach 
+    @endif
+@endforeach 
 @endsection

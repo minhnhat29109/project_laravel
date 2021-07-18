@@ -17,43 +17,70 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/', function () {
 //     return view('backend.Dashboard');
 // });
+
+Route::group([
+    'middleware' => ['preventBackHistory'],
+], function () {
 Route::get('/', 'Frontend\HomeController@index')->name('frontend.home');
 
 Route::get('/show/{id}', 'Frontend\HomeController@show')->name('frontend.home.product-detail');
 
 Route::get('search/name', 'Frontend\HomeController@getSearchAjax')->name('search');
 
+Route::get('products/search/{name}', 'Frontend\HomeController@searchProducts')->name('search-products');
+
 Route::get('products/view-all', 'Frontend\ProductController@index')->name('frontend.product.viewAll');
 
 Route::get('products/filter-products', 'Frontend\ProductController@filterProduct')->name('frontend.product.filter');
 
+});
 
-Route::get('products/cart/list', 'Frontend\CartController@index')->name('frontend.cart.index');
+Route::group([
+    'middleware' => ['auth', 'preventBackHistory'],
+], function (){
 
-Route::get('products/cart/add/{id}', 'Frontend\CartController@add')->name('frontend.cart.add');
+    Route::get('cart/list', 'Frontend\CartController@index')->name('frontend.cart.index');
 
-Route::get('products/cart/delete/{id}', 'Frontend\CartController@remove')->name('frontend.cart.remove');
+    Route::get('cart/add/{id}', 'Frontend\CartController@add')->name('frontend.cart.add');
 
-Route::get('products/cart/increase/{id}', 'Frontend\CartController@increase')->name('frontend.cart.increase');
+    Route::get('cart/delete/{id}', 'Frontend\CartController@remove')->name('frontend.cart.remove');
 
-Route::get('products/cart/decrease/{id}', 'Frontend\CartController@decrease')->name('frontend.cart.decrease');
+    Route::get('cart/increase/{id}', 'Frontend\CartController@increase')->name('frontend.cart.increase');
+
+    Route::get('cart/decrease/{id}', 'Frontend\CartController@decrease')->name('frontend.cart.decrease');
+
+    Route::post('order/store', 'Frontend\OrderController@store')->name('frontend.order.store');
+
+    Route::get('order/list/{id}', 'Frontend\OrderController@list')->name('frontend.order.list');
+
+    Route::get('order/detail/{id}', 'Frontend\OrderController@show')->name('frontend.order.detail'); 
+
+    Route::get('order/cancer/{id}', 'Frontend\OrderController@cancer')->name('frontend.order.cancer');
+
+    Route::post('order/review/{id}', 'Frontend\OrderController@reviewProduct')->name('frontend.order.review');
+
+});
 
 
-Route::post('order/store', 'Frontend\OrderController@store')->name('frontend.order.store');
 
 
 
 
+Route::group([
+    'middleware' => ['preventBackHistory'],
+], function () {
+    Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login.form');
 
-Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login.form');
+    Route::post('/login', 'Auth\LoginController@login')->name('login.store');
 
-Route::post('/login', 'Auth\LoginController@login')->name('login.store');
+    Route::get('/logout', 'Auth\LogoutController@logout')->name('logout')->middleware('auth');
 
-Route::get('/logout', 'Auth\LogoutController@logout')->name('logout')->middleware('auth');
+    Route::get('/register', 'Auth\RegisterController@showRegistrationForm')->name('register.form');
 
-Route::get('/register', 'Auth\RegisterController@showRegistrationForm')->name('register.form');
+    Route::post('/register', 'Auth\RegisterController@register')->name('register.post');
+    
+});
 
-Route::post('/register', 'Auth\RegisterController@register')->name('register.post');
 
 
 
@@ -109,8 +136,10 @@ Route::group([
         Route::get('/update-confirm/{id}', 'OrderController@updateStatusConfirm')->name('backend.order.update-confirm');
         Route::get('/update-transport/{id}', 'OrderController@updateStatusTranSport')->name('backend.order.update-transport');
         Route::get('/update-cancer/{id}', 'OrderController@updateStatusCancer')->name('backend.order.update-cancer');
-
-
+        Route::get('/update-success/{id}', 'OrderController@updateStatusSuccess')->name('backend.order.update-success');
+        Route::get('/printer/{id}', 'OrderController@printer')->name('backend.order.printer');
+        Route::get('/chart', 'OrderController@chart')->name('backend.order.chart');
+        Route::get('/viewChart', 'OrderController@viewChart')->name('backend.order.viewChart');
     });
       //Brands
     Route::prefix('brands')->group(function(){
@@ -135,3 +164,5 @@ Route::group([
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
+Route::get('/chart', 'ChartController@chart');
+Route::get('/viewChart', 'ChartController@viewChart');

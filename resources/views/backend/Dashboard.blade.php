@@ -40,7 +40,7 @@
                     <div class="icon">
                         <i class="ion ion-bag"></i>
                     </div>
-                    <a href="#" class="small-box-footer">Xem thêm <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{{route('backend.order.index')}}" class="small-box-footer">Xem thêm <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->
@@ -55,7 +55,7 @@
                     <div class="icon">
                         <i class="ion ion-stats-bars"></i>
                     </div>
-                    <a href="#" class="small-box-footer">Xem thêm <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{{route('backend.products.index')}}" class="small-box-footer">Xem thêm <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->
@@ -70,7 +70,7 @@
                     <div class="icon">
                         <i class="ion ion-person-add"></i>
                     </div>
-                    <a href="#" class="small-box-footer">Xem thêm <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{{route('backend.user.index')}}" class="small-box-footer">Xem thêm <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->
@@ -78,14 +78,18 @@
                 <!-- small box -->
                 <div class="small-box bg-danger">
                     <div class="inner">
-                        <h3>65,000,000 </h3>
+                        <h3>
+                            @if (!$total)
+                                {{$total->total}}₫
+                            @endif
+                        </h3>
 
                         <p>Doanh thu</p>
                     </div>
                     <div class="icon">
-                        <i class="ion ion-pie-graph"></i>
+                        <i class="ion ion-stats-bars"></i>
                     </div>
-                    <a href="#" class="small-box-footer">Xem thêm <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{{route('backend.order.viewChart')}}" class="small-box-footer">Xem thêm <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->
@@ -95,22 +99,10 @@
 
             <div class="col-12">
                 <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Sản phẩm mới nhập</h3>
-
-                        <div class="card-tools">
-                            <div class="input-group input-group-sm" style="width: 150px;">
-                                <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-
-                                <div class="input-group-append">
-                                    <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    
                     <!-- /.card-header -->
                     <div class="card-body table-responsive p-0">
-                        <table class="table table-hover">
+                        <table class="table table table-hover data-table">
                             <thead>
                             <tr>
                                 <th>ID</th>
@@ -132,7 +124,7 @@
                                         @else
                                             <td>Không có ảnh</td>
                                         @endif --}}
-                                        <td>{{number_format($product->sale_price) }} VNĐ</td>
+                                        <td>{{number_format($product->sale_price) }} ₫</td>
                                         <td>11-7-2014</td>
                                         <td><span class="rounded w-50 {{$product->status_color}}">{{ $product->status_text }}</span></td>
                                     </tr>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use App\Models\UserInfo;
 use Illuminate\Http\Request;
@@ -17,7 +18,7 @@ class RegisterController extends Controller
     {
        return view('backend.auth.register');
     }
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
         $data = $request->validate([
             'name' => ['required'],
@@ -45,7 +46,7 @@ class RegisterController extends Controller
                 }
                 if (Auth::attempt(['email' => $email, 'password' => $request->get('password')])) {
                     $request->session()->regenerate();
-                    return redirect()->intended('/');
+                    return redirect()->intended('/')->with('success', 'Đăng kí tài khoản thành công');
                 }
             }
         }

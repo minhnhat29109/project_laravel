@@ -82,7 +82,7 @@
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">Mô tả sản phẩm</label>
-                <textarea class="textarea" name="content" value="{{old('content')}}" placeholder="Place some text here"
+                <textarea class="textarea" name="content" value="{{old('content')}}" placeholder=""
                           style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
                           @error('content')
                             <p class="text-danger">{{ $message }}</p>
@@ -101,7 +101,7 @@
             <div class="form-group">
                 <label for="exampleInputFile">Hình ảnh sản phẩm</label>
                 <div class="input-group">
-                    <input type="file" name="images[]" multiple> 
+                    <input type="file" class="form-control-file" name="images[]" multiple>
                 </div>
                 @error('images')
                     <p class="text-danger">{{ $message }}</p>

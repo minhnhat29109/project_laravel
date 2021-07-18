@@ -65,7 +65,7 @@
                                                     <a href="{{ route('backend.order.edit', $order->id) }}"
                                                         class="btn btn-info"><i class="fas fa-eye"></i></a>
                                                     <div class="dropdown">
-                                                        <button class="btn btn-warning dropdown-toggle"  id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <button class="btn btn-warning dropdown-toggle {{$order->status == -1 || $order->status == 3 ? 'disabled' : ''}}"  id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                           Xử lý
                                                         </button>
                                                         <div class="dropdown-menu dropdown-menu-right" >

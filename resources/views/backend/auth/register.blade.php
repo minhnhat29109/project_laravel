@@ -1,12 +1,14 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>AdminLTE 3 | Dashboard</title>
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Font Awesome -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sign Up Form by Colorlib</title>
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="/form-login/fonts/material-icon/css/material-design-iconic-font.min.css">
     <link rel="stylesheet" href="/backend/plugins/fontawesome-free/css/all.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
@@ -26,134 +28,99 @@
     <link rel="stylesheet" href="/backend/plugins/summernote/summernote-bs4.css">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <!-- Main css -->
+    <link rel="stylesheet" href="/form-login/css/style.css">
+    <link rel="stylesheet" type="text/css" 
+    href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <style>
+        i{
+            margin-left: 5px;
+        }
+    </style>
 </head>
-<body class="hold-transition register-page">
+<body >
 
-
-<div class="register-box">
-    <div class="register-logo">
-        <a href="../../index2.html"><b>Admin</b>LTE</a>
+    <div class="main">
+        <!-- Sing in  Form -->
+        <section class="signup">
+            <div class="container">
+                <div class="signup-content">
+                    <div class="signup-form">
+                        <h2 class="form-title"style="font-family: Arial;">Đăng kí</h2>
+                        <form action="{{route('register.post')}}"  method="post" class="register-form" id="register-form">
+                            @csrf
+                            <div class="form-group">
+                                <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                <input type="text" name="name" value="{{old('name')}}" id="name" placeholder="Họ Tên"/>
+                                @error('name')
+                                    <p class="text-danger text-sm">{{$message}}</p>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="email"><i class="zmdi zmdi-email"></i></label>
+                                <input type="email" name="email" {{old('email')}} id="email" placeholder=" Địa chỉ Email"/>
+                                @error('email')
+                                    <p class="text-danger text-sm">{{$message}}</p>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="pass"><i class="zmdi zmdi-lock"></i></label>
+                                <input type="password" name="password" id="pass" placeholder="Mật khẩu"/>
+                                @error('password')
+                                    <p class="text-danger text-sm">{{$message}}</p>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i></label>
+                                <input type="password" name="re_password" id="re_pass" placeholder="Nhập lại mật khẩu"/>
+                                @error('re_password')
+                                    <p class="text-danger text-sm" >{{$message}}</p>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i></label>
+                                <input type="text" name="phone" id="re_pass" {{old('phone')}} placeholder="Số điện thoại"/>
+                                @error('phone')
+                                    <p class="text-danger text-sm">{{$message}}</p>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i></label>
+                                <input type="text" name="address" id="re_pass" {{old('address')}} placeholder="Địa chỉ"/>
+                                @error('address')
+                                    <p class="text-danger text-sm">{{$message}}</p>
+                                @enderror
+                            </div>
+                            
+                            <div class="form-group form-button">
+                                <button class="btn form-submit text-sm"id="signup" style="font-family: Arial;">Đăng kí</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="signup-image">
+                        <figure><img src="/form-login/images/signup-image.jpg" alt="sing up image"></figure>
+                        <a href="{{route('login.form')}}" class="signup-image-link">Bạn đã có tài khoản?</a>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 
-    <div class="card">
-        <div class="card-body register-card-body">
-            @if ($errors->any())
-                @foreach ($errors->all() as $error)
-                    <p style="color: red">{{$error}}</p>
-                @endforeach
-                
-            @endif
-            <p class="login-box-msg">Register a new membership</p>
-            <form action="{{ route('register.post') }}" method="post">
-                @csrf
-                <div class="input-group mb-3">
-                    <input type="text" name="name" class="form-control" placeholder="Full name">
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-user"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="input-group mb-3">
-                    <input type="email" name="email" class="form-control" placeholder="Email">
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-envelope"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="input-group mb-3">
-                    <input type="password" name="password" class="form-control" placeholder="Password">
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-lock"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" name="phone" placeholder="Phone">
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fa fa-phone"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" name="address" placeholder="Address">
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-address-book"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-8">
-                        <div class="icheck-primary">
-                            <input type="checkbox" id="agreeTerms" name="terms" value="agree">
-                            <label for="agreeTerms">
-                                I agree to the <a href="#">terms</a>
-                            </label>
-                        </div>
-                    </div>
-                    <!-- /.col -->
-                    <div class="col-4">
-                        <button type="submit" class="btn btn-primary btn-block btn-flat">Register</button>
-                    </div>
-                    <!-- /.col -->
-                </div>
-            </form>
-
-            <div class="social-auth-links text-center">
-                <p>- OR -</p>
-                <a href="#" class="btn btn-block btn-primary">
-                    <i class="fab fa-facebook mr-2"></i>
-                    Sign up using Facebook
-                </a>
-                <a href="#" class="btn btn-block btn-danger">
-                    <i class="fab fa-google-plus mr-2"></i>
-                    Sign up using Google+
-                </a>
-            </div>
-
-            <a href="login.html" class="text-center">I already have a membership</a>
-        </div>
-        <!-- /.form-box -->
-    </div><!-- /.card -->
-</div>
-
-
-<script src="/backend/plugins/jquery/jquery.min.js"></script>
-<!-- jQuery UI 1.11.4 -->
-<script src="/backend/plugins/jquery-ui/jquery-ui.min.js"></script>
-<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-<script>
-    $.widget.bridge('uibutton', $.ui.button)
-</script>
-<!-- Bootstrap 4 -->
-<script src="/backend/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- ChartJS -->
-<script src="/backend/plugins/chart.js/Chart.min.js"></script>
-<!-- Sparkline -->
-<script src="/backend/plugins/sparklines/sparkline.js"></script>
-<!-- JQVMap -->
-<script src="/backend/plugins/jqvmap/jquery.vmap.min.js"></script>
-<script src="/backend/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
-<!-- jQuery Knob Chart -->
-<script src="/backend/plugins/jquery-knob/jquery.knob.min.js"></script>
-<!-- daterangepicker -->
-<script src="/backend/plugins/moment/moment.min.js"></script>
-<script src="/backend/plugins/daterangepicker/daterangepicker.js"></script>
-<!-- Tempusdominus Bootstrap 4 -->
-<script src="/backend/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
-<!-- Summernote -->
-<script src="/backend/plugins/summernote/summernote-bs4.min.js"></script>
-<!-- overlayScrollbars -->
-<script src="/backend/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
-<!-- AdminLTE App -->
-<script src="/backend/dist/js/adminlte.js"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="/backend/dist/js/pages/dashboard.js"></script>
+    <!-- JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="/backend/dist/js/demo.js"></script>
-</body>
+    <script src="/backend/dist/js/demo.js"></script>
+    <script src="/form-login/vendor/jquery/jquery.min.js"></script>
+    <script src="/form-login/js/main.js"></script>
+    <script>
+        @if(Session::has('success'))
+  		toastr.success("{{ session('success') }}");
+        @endif
+
+        @if(Session::has('error'))
+                toastr.error("{{ session('error') }}");
+        @endif
+        </script>
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
 </html>
