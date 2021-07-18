@@ -15,7 +15,11 @@
         "laravel/jetstream": "^2.3",
         "laravel/sanctum": "^2.6",
         "laravel/tinker": "^2.5",
-        "livewire/livewire": "^2.0"
+        "livewire/livewire": "^2.0",
+        "koolreport/barcode": "*",
+        "koolreport/core": "^4.3",
+        "koolreport/export": "*",
+        "koolreport/pro": "*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",
@@ -24,7 +28,8 @@
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.2",
         "nunomaduro/collision": "^5.0",
-        "phpunit/phpunit": "^9.3.3"
+        "phpunit/phpunit": "^9.3.3",
+        "phpspec/phpspec": "2.2.1"
     },
     "autoload": {
         "psr-4": {
